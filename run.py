@@ -1,9 +1,9 @@
 import discord, requests
-from discord.ext import commands
-from bs4 import BeautifulSoup as bs
+from discord.ext.commands import Bot, Context
+from bs4 import BeautifulSoup
 
 
-client = commands.Bot(command_prefix='.', intents=discord.Intents.all())
+client = Bot(command_prefix='.', intents=discord.Intents.all())
 
 @client.command()
 async def test(contex):
@@ -11,9 +11,10 @@ async def test(contex):
 
 def torrent(source):
     try:
-        return bs(source.content, "html.parser").find_all("span", class_="botao_dublado")[-1].text
+        return BeautifulSoup(source.content, "html.parser").find_all("span", class_="botao_dublado")[-1].text
     except:
         return "Aguardando dublagem"
+
 
 @client.command()
 async def series(contex):
@@ -28,4 +29,4 @@ async def series(contex):
     await contex.send(f"She Hulk s02 > {torrent(requests.get('https://lacraiatorrent.com/mulher-hulk-defensora-de-herois-2-temporada-torrent-dublada/'))}")
     await contex.send(f"Sandman s02 > {torrent(requests.get('https://lacraiatorrent.com/sandman-2-temporada-completa-torrent-dublada/'))}")
 
-client.run('')
+client.run('MTA0NTM3NzUzMjA2MjU5NzEyMQ.Gw_QdQ.vyDguf5quc_8HSHlXBOBV8MJzqtUnee4zuLv8E')
