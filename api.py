@@ -15,4 +15,4 @@ async def series(contex):
     for serie in init_api(links):
         await contex.send(serie)
 
-client.run('MTA0NTM3NzUzMjA2MjU5NzEyMQ.Gw_QdQ.vyDguf5quc_8HSHlXBOBV8MJzqtUnee4zuLv8E')
+client.run('')

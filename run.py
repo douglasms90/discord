@@ -29,4 +29,4 @@ async def series(contex):
     await contex.send(f"She Hulk s02 > {torrent(requests.get('https://lacraiatorrent.com/mulher-hulk-defensora-de-herois-2-temporada-torrent-dublada/'))}")
     await contex.send(f"Sandman s02 > {torrent(requests.get('https://lacraiatorrent.com/sandman-2-temporada-completa-torrent-dublada/'))}")
 
-client.run('MTA0NTM3NzUzMjA2MjU5NzEyMQ.Gw_QdQ.vyDguf5quc_8HSHlXBOBV8MJzqtUnee4zuLv8E')
+client.run('')
