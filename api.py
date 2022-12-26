@@ -1,6 +1,6 @@
 import discord, os
 from discord.ext.commands import Bot, Context
-from ext import webscraping
+from ext import commands
 from dotenv import load_dotenv
 
 
@@ -16,7 +16,7 @@ async def test(contex):
 @client.command()
 async def series(contex):
     await contex.send("**Aguarde um momento**...")
-    for serie in webscraping.init_api():
+    for serie in commands.init_api():
         await contex.send(serie)
 
 client.run(token)
