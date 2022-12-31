@@ -2,5 +2,5 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def website(source):
+def soup(source):
     return BeautifulSoup(requests.get(source).content, "html.parser")
