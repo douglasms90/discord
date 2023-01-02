@@ -22,7 +22,7 @@ session = Session()
 class dbConn():
     conn = None
     def __init__(self):
-        self.conn = psycopg2.connect("dbname='mkData3.0' user='cliente_r' host='177.184.72.6' password='Cl13nt_R'")
+        self.conn = psycopg2.connect("")
 
     def consult(self, query):
         try:
