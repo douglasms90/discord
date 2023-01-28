@@ -32,6 +32,25 @@ async def series(contex):
             embed.set_author(name=serie.author)
             await contex.send(embed = embed)
         except:
+<<<<<<< HEAD
             await contex.send(f"**{soup.find_all('span', class_='info_dados')[0].text}** - Aguardando dublagem")
+=======
+            await contex.send(f"**{serie.name}** - Aguardando dublagem")
+
+@client.command()
+async def os(contex):
+    conn = dbConn()
+    await contex.send(f'ID DEFEITO TIPO GERADA CLIENTE CIDADE BAIRRO')
+    rows = conn.consult("""""")
+    for row in rows:
+        await contex.send(f'{row}')
+
+@client.command()
+async def re(contex):
+    await contex.send(f'ID DEFEITO DESCRIÇÃO FECHAMENTO CLIENTE OPERADOR DESCRIÇÃO')
+    rows = conn.consult("""""")    
+    for row in rows:
+        await contex.send(f'{row}')
+>>>>>>> 9f2c996b19c25bb968cefe62095ae5b10db00e78
 
 client.run(token)
