@@ -18,7 +18,9 @@ def populateDB():
         website(name='Arcanjo Renegado', link='https://lacraiatorrent.com/arcanjo-renegado-3-temporada-torrent/'),
         website(name='She Hulk', link='https://lacraiatorrent.com/mulher-hulk-defensora-de-herois-2-temporada-torrent-dublada/'),
         website(name='Sandman', link='https://lacraiatorrent.com/sandman-2-temporada-completa-torrent-dublada/'),
-        website(name='See', link='https://lacraiatorrent.com/pagina-nao-encontrada-torrent/')
+        website(name='See', link='https://lacraiatorrent.com/see-4-temporada-completa-torrent-dublada/'),
+        website(name='Manifest', link='https://lacraiatorrent.com/manifest-o-misterio-do-voo-828-2-temporada-completa-torrent-dublada/'),
+        website(name='The Last of Us', link='https://lacraiatorrent.com/the-last-of-us-1-temporada-torrent-dublada/')
     ])
 
     session.commit()
