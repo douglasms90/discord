@@ -13,4 +13,3 @@ engine = db.create_engine('sqlite:///development.db', echo=True)
 Session = dbo.sessionmaker(bind=engine)
 
 session = Session()
-
