@@ -1,37 +1,15 @@
-import discord, os
-from discord.ext.commands import Bot, Context
-from dotenv import load_dotenv
+import discord, os, asyncio
+from discord.ext import commands
+from decouple import config
 
-from ext.webscraping import bs
-from ext.commands import populateDb
-from ext.database import session
-from models import website
+from ext.commands import deletedb
 
 
-load_dotenv()
-token = os.getenv('Token')
+bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
-client = Bot(command_prefix='.', intents=discord.Intents.all())
+async def create_api():
+    await bot.load_extension(f'cogs._init')
+    await bot.load_extension(f'cogs.work')
+    await bot.start(config('TOKEN'))
 
-@client.command()
-async def test(contex):
-    await contex.send("Hi!")
-
-populateDb()
-
-@client.command()
-async def series(contex):
-    await contex.send("**Aguarde um momento**...")
-    for serie in session.query(website):
-        soup = bs(serie.author)
-        try:
-            embed = discord.Embed(
-                title = soup.find_all('span', class_='info_dados')[0].text,
-                description = soup.find_all('span', class_='botao_dublado')[-1].text
-            )
-            embed.set_author(name=serie.author)
-            await contex.send(embed = embed)
-        except:
-            await contex.send(f"**{soup.find_all('span', class_='info_dados')[0].text}** - Aguardando dublagem")
-
-client.run(token)
+asyncio.run(create_api())
