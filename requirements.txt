@@ -1,4 +1,6 @@
 discord.py
+python-decouple
+sqlalchemy
 bs4
 requests
 asyncio
