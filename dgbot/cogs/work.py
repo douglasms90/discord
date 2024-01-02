@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from ext.database import session
-from models import Act, Vln
+from models import Act, Vln, Atv
 from datetime import datetime
 
 from bs4 import BeautifulSoup
@@ -93,57 +93,61 @@ class work(commands.Cog):
         arv = rv = arf = rf = afi = fi = aab = ab = aai = ai = acr = cr = ct = dv = dy = yc = tl = ac = 0
 
         for i in data:
+            tp = i['tp']
+            nm = i['nm']
             pm = i['pm']
+            qt = i['qt']
+            rc = i['rc']
             pa = i['pa']
-            if i['tp'] == 'rf':
-                pr = pa/i['qt']
-                arf += pm*i['qt']
+            if tp == 'rf':
+                pr = pa/qt
+                arf += pm*qt
                 rf += pa
                 pa = dp = yp = pl = vr = ''
             else:
                 ct += 1
-                st = bs(f"https://statusinvest.com.br/{i['tp']}/{i['nm']}")
+                st = bs(f"https://statusinvest.com.br/{tp}/{nm}")
                 pr = float((st.find_all('strong',class_='value')[0].text).replace('.','').replace(',','.'))
-                if i['tp'] == 'fundos-imobiliarios':
+                if tp == 'fundos-imobiliarios':
                     dv = float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))
                     dp = f"{'%.2f' %((dv/pr)*100)}%"
                     yp = f"{'%.2f' %((dv/pm)*100)}%"
                     vr = st.find_all('strong',class_='value')[6].text
-                    afi += pm*i['qt']
-                    fi += pr*i['qt']
+                    afi += pm*qt
+                    fi += pr*qt
                     pl = ''
-                if i['tp'] == 'acoes':
+                if tp == 'acoes':
                     dv = float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))
                     dp = f"{'%.2f' %((dv/pr)*100)}%"
                     yp = f"{'%.2f' %((dv/pm)*100)}%"
                     pl = st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[1].text
                     vr = st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[3].text
-                    aab += pm*i['qt']
-                    ab += pr*i['qt']
-                if i['tp'] == 'etfs':
+                    aab += pm*qt
+                    ab += pr*qt
+                if tp == 'etfs':
                     dp = yp = pl = vr = ''
-                    aai += pm*i['qt']
-                    ai += pr*i['qt']
-                if i['tp'] == 'bdrs':
+                    aai += pm*qt
+                    ai += pr*qt
+                if tp == 'bdrs':
                     pl = st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[1].text
                     vr = st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[3].text
-                    aai += pm*i['qt']
-                    ai += pr*i['qt']
+                    aai += pm*qt
+                    ai += pr*qt
                     dp = yp = ''
-                if i['tp'] == 'criptomoedas':
+                if tp == 'criptomoedas':
                     pm = pr
-                    acr += pr*i['qt'] 
-                    cr += pr*i['qt']
+                    acr += pr*qt 
+                    cr += pr*qt
                     pa = dp = yp = pl = vr = ''
-                arv += pm*i['qt']
-                rv += pr*i['qt']
+                arv += pm*qt
+                rv += pr*qt
 
             dy += (dv/pr)*100
             yc += (dv/pm)*100
-            tl += pr*i['qt']
-            ac += pm*i['qt']
+            tl += pr*qt
+            ac += pm*qt
 
-            print(f"{i['nm'].upper()}\t{'%.2f' %(((pr-pm)/pm)*100)}%\t{'%.0f' %(pr)}\t{i['rc']} {pa}\t{dp}\t{yp}\t{pl}\t{vr}\t{'%.2f' %(((pr*i['qt'])/tt)*100)}%\t{'%.2f' %(((pm*i['qt'])/tt)*100)}%")
+            print(f"{nm.upper()}\t{'%.2f' %(((pr-pm)/pm)*100)}%\t{'%.0f' %(pr)}\t{rc} {pa}\t{dp}\t{yp}\t{pl}\t{vr}\t{'%.2f' %(((pr*qt)/tt)*100)}%\t{'%.2f' %(((pm*qt)/tt)*100)}%")
             dv = pl = vr = dp = yp = 0
         print(f"fi: {'%.2f' %(afi)}\taç: {'%.2f' %(aab)}\tai: {'%.2f' %(aai)}\tcr: {'%.2f' %(acr)}\tac: {'%.2f' %(ac)}")
         print(f"fi: {'%.2f' %(fi)}\taç: {'%.2f' %(ab)}\tai: {'%.2f' %(ai)}\tcr: {'%.2f' %(cr)}\ttl: {'%.2f' %(tl)}")

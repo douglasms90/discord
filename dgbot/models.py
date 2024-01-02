@@ -1,12 +1,6 @@
 from ext.database import db, base
 
 
-class Url(base):
-    __tablename__ = 'url'
-
-    id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.String(200))
-
 class Act(base):
     __tablename__ = 'act'
 
@@ -27,3 +21,14 @@ class Vln(base):
     olt = db.Column(db.String(20))
     tfc = db.Column(db.String(10))
     vln = db.Column(db.String(5))
+
+class Atv(base):
+    __tablename__ = 'atv'
+
+    id = db.Column(db.Integer, primary_key=True)
+    tp = db.Column(db.String(20))
+    nm = db.Column(db.String(10))
+    pm = db.Column(db.Numeric(10))
+    qt = db.Column(db.Numeric(10))
+    rc = db.Column(db.String(10))
+    pa = db.Column(db.Numeric(10))
