@@ -11,12 +11,12 @@ def createdb():
 
 def insertdb():
     session.add_all([
-        Atv(tp='rf',nm='inv',pm=79.18,qt=1,rc='',pa=79.68),#1
+        Atv(id=35,tp='criptomoedas',nm='beth',pm=1,qt=0.18710108,rc='',pa=0),
     ])
     session.commit()
 
 def deletedb():
-    session.query(Act).filter(Act.id == 1).delete()
+    session.query(Atv).filter(Atv.id == 35).delete()
     session.commit()
 
 def updatedb():
