@@ -70,15 +70,16 @@ class fin(commands.Cog):
             tl += pr*i.qt
             ac += i.pm*i.qt
 
-            print(f"{i.id}\t{i.nm.upper()}\t{'%.2f' %(((pr-i.pm)/i.pm)*100)}%\t{'%.0f' %(pr)}\t{i.rc} {pa}\t{dp}\t{yp}\t{pl}\t{vr}\t{'%.0f' %(pr*i.qt)}\t{'%.0f' %(i.pm*i.qt)}")
+            print(f"{i.id}  {i.nm.upper()}\t{'%.2f' %(((pr-i.pm)/i.pm)*100)}%\t{'%.0f' %(pr)}\t{'%.0f' %(i.pm)}\t{i.rc} {pa}\t{'%.2f' %(i.qt)}\t{dp}\t{yp}\t{pl}\t{vr}\t{'%.0f' %(pr*i.qt)}\t{'%.0f' %(i.pm*i.qt)}")
             dv = pl = vr = dp = yp = 0
-        print(f"fi: {'%.2f' %(afi)}\taç: {'%.2f' %(aab)}\tai: {'%.2f' %(aai)}\tcr: {'%.2f' %(acr)}\tac: {'%.2f' %(ac)}")
-        print(f"fi: {'%.2f' %(fi)}\taç: {'%.2f' %(ab)}\tai: {'%.2f' %(ai)}\tcr: {'%.2f' %(cr)}\ttl: {'%.2f' %(tl)}")
-        print(f"dy: {'%.2f' %(dy/ct)}\trf: {'%.2f' %(arf)}\trv: {'%.2f' %(arv)}")
-        print(f"yc: {'%.2f' %(yc/ct)}\trf: {'%.2f' %(rf)}\trv: {'%.2f' %(rv)}")
+        print(f"rf: {'%.2f' %(tl*0.50)}\tfi: {'%.2f' %(tl*0.20)}\taç: {'%.2f' %(tl*0.15)}\tai: {'%.2f' %(tl*0.10)}\tcr: {'%.2f' %(tl*0.05)}")
+        print(f"rf: {'%.2f' %(arf)}\tfi: {'%.2f' %(afi)}\taç: {'%.2f' %(aab)}\tai: {'%.2f' %(aai)}\tcr: {'%.2f' %(acr)}\t")
+        print(f"rf: {'%.2f' %(rf)}\tfi: {'%.2f' %(fi)}\taç: {'%.2f' %(ab)}\tai: {'%.2f' %(ai)}\tcr: {'%.2f' %(cr)}\t")
+        print(f"dy: {'%.2f' %(dy/ct)}\trv: {'%.2f' %(arv)}\tac: {'%.2f' %(ac)}")
+        print(f"yc: {'%.2f' %(yc/ct)}\trv: {'%.2f' %(rv)}\ttl: {'%.2f' %(tl)}")
         await ctx.send('Pronto!')
 
-    @commands.command(name="replaceatv")
+    @commands.command(name="atvreplace")
     async def replace(self, ctx, *args):
         session.query(Atv).filter(Atv.id == args[0]).update({args[1]:args[2]})
         session.commit()

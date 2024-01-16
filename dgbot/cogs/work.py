@@ -21,7 +21,7 @@ class work(commands.Cog):
             embed.set_footer(text=obj.id)
             await ctx.send(embed = embed)
 
-    @commands.command(name="replace")
+    @commands.command(name="actreplace")
     async def replace(self, ctx, *args):
         session.query(Act).filter(Act.id == args[0]).update({args[1]:args[2]})
         session.commit()

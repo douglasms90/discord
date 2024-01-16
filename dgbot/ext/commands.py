@@ -16,7 +16,7 @@ def insertdb():
     session.commit()
 
 def deletedb():
-    session.query(Atv).filter(Atv.id == 35).delete()
+    session.query(Atv).filter(Atv.id == 1431).delete()
     session.commit()
 
 def updatedb():
