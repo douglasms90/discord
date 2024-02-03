@@ -11,15 +11,15 @@ def createdb():
 
 def insertdb():
     session.add_all([
-        Atv(id=35,tp='criptomoedas',nm='beth',pm=1,qt=0.18710108,rc='',pa=0),
+        Atv(id=99,tp='fundos-imobiliarios',nm='kncr11',pm=101,qt=1,rc='',pa=101),
     ])
     session.commit()
 
 def deletedb():
-    session.query(Atv).filter(Atv.id == 1431).delete()
+    session.query(Atv).filter(Atv.id == 99).delete()
     session.commit()
 
 def updatedb():
-    session.query(Vln).filter(Vln.id == 1).update({'olt':'OLT-VALENCA','tfc':'','vln':'1'})
+    session.query(Atv).filter(Atv.id == 108).update({'id':'208'})
     session.commit()
 
