@@ -10,16 +10,14 @@ def createdb():
     base.metadata.create_all(engine)
 
 def insertdb():
-    session.add_all([
-        Atv(id=99,tp='fundos-imobiliarios',nm='kncr11',pm=101,qt=1,rc='',pa=101),
-    ])
+    session.add(Atv(id=100,tp='rf',nm='test',pm=1,qt=1,rc='N',pa=1))
     session.commit()
 
 def deletedb():
-    session.query(Atv).filter(Atv.id == 99).delete()
+    session.query(Atv).filter(Atv.id == 100).delete()
     session.commit()
 
 def updatedb():
-    session.query(Atv).filter(Atv.id == 108).update({'id':'208'})
+    session.query(Atv).filter(Atv.id == 208).update({'id':201})
     session.commit()
 

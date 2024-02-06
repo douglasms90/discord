@@ -7,12 +7,12 @@ from models import Atv
 from bs4 import BeautifulSoup
 import requests
 
-class fin(commands.Cog):
+class atv(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="fin")
-    async def fin(self, ctx, *args):
+    @commands.command(name="atv")
+    async def atv(self, ctx, *args):
         def bs(url):
             return BeautifulSoup(requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}).content, 'html.parser')
 
@@ -77,11 +77,23 @@ class fin(commands.Cog):
         print(f"rf: {'%.2f' %(rf)}\tfi: {'%.2f' %(fi)}\taç: {'%.2f' %(ab)}\tai: {'%.2f' %(ai)}\tcr: {'%.2f' %(cr)}\tyc: {'%.2f' %(yc/ct)}\trv: {'%.2f' %(rv)}\ttl: {'%.2f' %(tl)}")
         await ctx.send('Pronto!')
 
+    @commands.command(name="atvinsert")
+    async def insert(self, ctx, *args):
+        session.add(Atv(id=args[0],tp=args[1],nm=args[2],pm=args[3],qt=args[4],rc=args[5],pa=args[6]))
+        session.commit()
+        await ctx.send('Feito!')
+
     @commands.command(name="atvreplace")
     async def replace(self, ctx, *args):
         session.query(Atv).filter(Atv.id == args[0]).update({args[1]:args[2]})
         session.commit()
-        await ctx.send('Pronto!')
+        await ctx.send('Feito!')
+
+    @commands.command(name="atvdelete")
+    async def delete(self, ctx, *args):
+        session.query(Atv).filter(Atv.id == args[0]).delete()
+        session.commit()
+        await ctx.send('Feito!')
 
 async def setup(bot):
-    await bot.add_cog(fin(bot))
+    await bot.add_cog(atv(bot))
