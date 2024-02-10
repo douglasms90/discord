@@ -10,11 +10,11 @@ def createdb():
     base.metadata.create_all(engine)
 
 def insertdb():
-    session.add(Atv(id=100,tp='rf',nm='test',pm=1,qt=1,rc='N',pa=1))
+    session.add(Act(id=100,dt=datetime.datetime(2023,2,8,14,15),usr='_douglasms_',olt='OLT-PIRAI-AFRODITE',tfc='0/17/2:',sn='4D4B5047B458F4F8',vln='734',ctr='65961',cto='C04'))
     session.commit()
 
 def deletedb():
-    session.query(Atv).filter(Atv.id == 100).delete()
+    session.query(Act).filter(Act.id == 100).delete()
     session.commit()
 
 def updatedb():
