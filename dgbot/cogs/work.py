@@ -17,7 +17,6 @@ class work(commands.Cog):
         now=datetime.now()
         session.add(Act(dt=now,usr=ctx.author.name,olt=args[1],tfc=args[4],sn=args[-3],vln=session.query(Vln.vln).filter(Vln.olt == args[1], Vln.tfc == args[4]),ctr=args[-2],cto=args[-1]))
         session.commit()
-        
         for obj in session.query(Act).filter(Act.dt == now):
             embed = discord.Embed(title=obj.olt,description=obj.tfc)
             embed.set_author(name=obj.usr)
@@ -29,7 +28,6 @@ class work(commands.Cog):
     async def replace(self, ctx, *args):
         session.query(Act).filter(Act.id == args[0]).update({args[1]:args[2]})
         session.commit()
-        
         for obj in session.query(Act).filter(Act.id == args[0]):
             embed = discord.Embed(title=obj.olt,description=obj.tfc)
             embed.set_author(name=obj.usr)

@@ -17,7 +17,6 @@ class atv(commands.Cog):
             return BeautifulSoup(requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}).content, 'html.parser')
 
         arv = rv = arf = rf = afi = fi = aab = ab = aai = ai = acr = cr = ct = dv = dy = yc = tl = ac = 0
-
         for i in session.query(Atv).order_by(Atv.id):
             if i.tp == 'rf':
                 pr = i.pa/i.qt
@@ -64,12 +63,10 @@ class atv(commands.Cog):
                     pa = dp = yp = pl = vr = ''
                 arv += i.pm*i.qt
                 rv += pr*i.qt
-
             dy += (dv/pr)*100
             yc += (dv/i.pm)*100
             tl += pr*i.qt
             ac += i.pm*i.qt
-
             print(f"{i.id}  {i.nm.upper()}\t{'%.2f' %(((pr-i.pm)/i.pm)*100)}%\t{'%.0f' %(pr)}\t{'%.0f' %(i.pm)}\t{i.rc} {pa}\t{'%.0f' %(i.qt)}\t{dp}\t{yp}\t{pl}\t{vr}\t{'%.0f' %(pr*i.qt)}\t{'%.0f' %(i.pm*i.qt)}")
             dv = pl = vr = dp = yp = 0
         print(f"rf: {'%.2f' %(tl*0.50)}\tfi: {'%.2f' %(tl*0.20)}\taç: {'%.2f' %(tl*0.15)}\tai: {'%.2f' %(tl*0.10)}\tcr: {'%.2f' %(tl*0.05)}")
