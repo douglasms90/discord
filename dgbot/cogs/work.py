@@ -28,12 +28,7 @@ class work(commands.Cog):
     async def replace(self, ctx, *args):
         session.query(Act).filter(Act.id == args[0]).update({args[1]:args[2]})
         session.commit()
-        for obj in session.query(Act).filter(Act.id == args[0]):
-            embed = discord.Embed(title=obj.olt,description=obj.tfc)
-            embed.set_author(name=obj.usr)
-            embed.add_field(name='Comando:', value=f'!ativa_onu_vlan {obj.sn} {obj.vln} {obj.ctr} {obj.cto}', inline=True)
-            embed.set_footer(text=obj.id)
-            await ctx.send(embed = embed)
+        await ctx.send('Feito!')
 
     @commands.command(name="acttoday")
     async def today(self, ctx):
