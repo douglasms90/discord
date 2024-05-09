@@ -7,12 +7,12 @@ from bs4 import BeautifulSoup
 import requests
 
 
-class atv(commands.Cog):
+class test(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="atv")
-    async def atv(self, ctx, *args):
+    @commands.command(name="testatv")
+    async def testatv(self, ctx, *args):
         arv = rv = arf = rf = afi = fi = aab = ab = aai = ai = acr = cr = ct = dv = dy = yc = tl = ac = 0
         for i in session.query(Atv).order_by(Atv.id):
             if i.tp == 'rf':
@@ -68,23 +68,5 @@ class atv(commands.Cog):
             dv = pl = vr = dp = yp = 0
         await ctx.send(f"`rf: {'%.2f' %(arf)}\tfi: {'%.2f' %(afi)}\taç: {'%.2f' %(aab)}\tai: {'%.2f' %(aai)}\tcr: {'%.2f' %(acr)}\tdy: {'%.2f' %(dy/ct)}\trv: {'%.2f' %(arv)}\tac: {'%.2f' %(ac)}\nrf: {'%.2f' %(rf)}\tfi: {'%.2f' %(fi)}\taç: {'%.2f' %(ab)}\tai: {'%.2f' %(ai)}\tcr: {'%.2f' %(cr)}\tyc: {'%.2f' %(yc/ct)}\trv: {'%.2f' %(rv)}\ttl: {'%.2f' %(tl)}`")
 
-    @commands.command(name="atvinsert")
-    async def insert(self, ctx, *args):
-        session.add(Atv(id=args[0],tp=args[1],nm=args[2],pm=args[3],qt=args[4],rc=args[5],pa=args[6]))
-        session.commit()
-        await ctx.send('Feito!')
-
-    @commands.command(name="atvreplace")
-    async def replace(self, ctx, *args):
-        session.query(Atv).filter(Atv.id == args[0]).update({args[1]:args[2].replace(',','.')})
-        session.commit()
-        await ctx.send('Feito!')
-
-    @commands.command(name="atvdelete")
-    async def delete(self, ctx, *args):
-        session.query(Atv).filter(Atv.id == args[0]).delete()
-        session.commit()
-        await ctx.send('Feito!')
-
 async def setup(bot):
-    await bot.add_cog(atv(bot))
+    await bot.add_cog(test(bot))
