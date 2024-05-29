@@ -1,11 +1,6 @@
 import discord
 from discord.ext import commands
-from ext.database import session
-from ext.webscraping import bs
-from models import Atv
-from bs4 import BeautifulSoup
 import youtube_dl
-import requests
 
 
 class test(commands.Cog):
@@ -13,9 +8,9 @@ class test(commands.Cog):
         self.bot = bot
 
     @commands.command(name="play")
-    async def play(self, ctx, url):
+    async def play(self, ctx, *args):
         # Configurações do youtube_dl
-        
+        '''
         ydl_opts = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -32,9 +27,12 @@ class test(commands.Cog):
         
         # Conecta ao canal de voz e reproduz o áudio
         voice_channel = ctx.author.voice.channel
-        print(voice_channel)
         voice_client = await voice_channel.connect()
         voice_client.play(discord.FFmpegPCMAudio(url))
+        '''
+        channel = ctx.author.voice.channel.id
+        print(channel)
+        await channel.connect()
 
 async def setup(bot):
     await bot.add_cog(test(bot))
