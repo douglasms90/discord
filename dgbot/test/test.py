@@ -14,7 +14,10 @@ class test(commands.Cog):
         conn = dbc(config("host"))
         dump = conn.consult(config("naquery"))
         for i in dump:
-            await ctx.send(i)
+            embed = discord.Embed(title=i[2],description=i[3])
+            embed.set_author(name=i[1].add_field(name='', value=fi[4], inline=True)
+            embed.set_footer(text=i[0])
+            await ctx.send(embed = embed)
 
     @commands.command(name='requery')
     async def test(self, ctx):
