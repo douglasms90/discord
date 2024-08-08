@@ -1,8 +1,10 @@
 import discord
 from discord.ext import commands
+
 from ext.database import session
 from ext.webscraping import bs
 from models import Atv
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -13,7 +15,7 @@ class atv(commands.Cog):
 
     @commands.command(name="atv")
     async def atv(self, ctx, *args):
-        if ctx.author.id == 269592803602989058:
+        if ctx.author.id in [269592803602989058]: # D
             lv = rv = lf = rf = li = fi = la = ab = lu = ai = lc = cr = ct = dv = dy = yc = tl = ac = 0
             for i in session.query(Atv).order_by(Atv.id):
                 if i.tp == 'rf':
@@ -73,27 +75,36 @@ class atv(commands.Cog):
                 ac += i.pm*i.qt
                 await ctx.send(f"`{i.id}\t{i.nm.upper().replace('TESOURO-SELIC-20','SLC-').replace('TESOURO-PREFIXADO-20','PRE-').replace('TESOURO-IPCA-20','IPCA')}\t{'%.2f' %(((pr-i.pm)/i.pm)*100)}%\t{'%.0f' %(pr)}\t{'%.0f' %(i.pm)}\t{i.rc}\t{pa}\t{'%.0f' %(i.qt)}\t{dp}\t{yp}\t{pl}\t{vr}\t{'%.0f' %(pr*i.qt)}\t{'%.0f' %(i.pm*i.qt)}`")
                 dv = pl = vr = dp = yp = 0
-            await ctx.send(f"`rf: {'%.2f' %(lf)}\tfi: {'%.2f' %(li)}\taç: {'%.2f' %(la)}\tai: {'%.2f' %(lu)}\tcr: {'%.2f' %(lc)}\tdy: {'%.2f' %(dy/ct)}\trv: {'%.2f' %(lv)}\tac: {'%.2f' %(ac)}\nrf: {'%.2f' %(rf)}\tfi: {'%.2f' %(fi)}\taç: {'%.2f' %(ab)}\tai: {'%.2f' %(ai)}\tcr: {'%.2f' %(cr)}\tyc: {'%.2f' %(yc/ct)}\trv: {'%.2f' %(rv)}\ttl: {'%.2f' %(tl)}`")
+            await ctx.author.send(f"`rf: {'%.2f' %(lf)}\tfi: {'%.2f' %(li)}\taç: {'%.2f' %(la)}\tai: {'%.2f' %(lu)}\tcr: {'%.2f' %(lc)}\tdy: {'%.2f' %(dy/ct)}\trv: {'%.2f' %(lv)}\tac: {'%.2f' %(ac)}\nrf: {'%.2f' %(rf)}\tfi: {'%.2f' %(fi)}\taç: {'%.2f' %(ab)}\tai: {'%.2f' %(ai)}\tcr: {'%.2f' %(cr)}\tyc: {'%.2f' %(yc/ct)}\trv: {'%.2f' %(rv)}\ttl: {'%.2f' %(tl)}`")
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
 
     @commands.command(name="atvinsert")
     async def insert(self, ctx, *args):
-        session.add(Atv(id=args[0],tp=args[1],nm=args[2],pm=args[3],qt=args[4],rc=args[5],pa=args[6]))
-        session.commit()
-        await ctx.send('Feito!')
+        if ctx.author.id in [269592803602989058]: # D
+            session.add(Atv(id=args[0],tp=args[1],nm=args[2],pm=args[3],qt=args[4],rc=args[5],pa=args[6]))
+            session.commit()
+            await ctx.author.send('Feito!')
+        else:
+            await ctx.send(f"{ctx.author} você não tem autorização")
 
     @commands.command(name="atvreplace")
     async def replace(self, ctx, *args):
-        session.query(Atv).filter(Atv.id == args[0]).update({args[1]:args[2].replace(',','.')})
-        session.commit()
-        await ctx.send('Feito!')
+        if ctx.author.id in [269592803602989058]: # D
+            session.query(Atv).filter(Atv.id == args[0]).update({args[1]:args[2].replace(',','.')})
+            session.commit()
+            await ctx.author.send('Feito!')
+        else:
+            await ctx.send(f"{ctx.author} você não tem autorização")
 
     @commands.command(name="atvdelete")
     async def delete(self, ctx, *args):
-        session.query(Atv).filter(Atv.id == args[0]).delete()
-        session.commit()
-        await ctx.send('Feito!')
+        if ctx.author.id in [269592803602989058]: # D
+            session.query(Atv).filter(Atv.id == args[0]).delete()
+            session.commit()
+            await ctx.author.send('Feito!')
+        else:
+            await ctx.send(f"{ctx.author} você não tem autorização")
 
 async def setup(bot):
     await bot.add_cog(atv(bot))
