@@ -13,14 +13,7 @@ class Act(base):
     vln = db.Column(db.String(5))
     ctr = db.Column(db.String(10))
     cto = db.Column(db.String(5))
-
-class Vln(base):
-    __tablename__ = 'vln'
-
-    id = db.Column(db.Integer, primary_key=True)
-    olt = db.Column(db.String(20))
-    tfc = db.Column(db.String(10))
-    vln = db.Column(db.String(5))
+    ido = db.Column(db.String(10))
 
 class Atv(base):
     __tablename__ = 'atv'

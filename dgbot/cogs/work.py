@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from ext.database import session, dbc
-from models import Act, Vln
+from models import Act
 from datetime import datetime
 from decouple import config
 
@@ -16,8 +16,22 @@ class work(commands.Cog):
     @commands.command(name="act")
     async def act(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
+            conn = dbc(config("host"))
+            dump = conn.consult(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos={args[-2]}")
             now=datetime.now()
-            session.add(Act(dt=now,usr=ctx.author.name,olt=args[1],tfc=args[4],sn=args[-3],vln=session.query(Vln.vln).filter(Vln.olt == args[1], Vln.tfc == args[4]),ctr=args[-2],cto=args[-1]))
+            session.add(
+                Act(
+                    dt=now,
+                    usr=ctx.author.id,
+                    olt=args[1],
+                    tfc=args[4],
+                    sn=args[-3],
+                    vln=args[-6].replace('#',''),
+                    ctr=dump[0][0],
+                    cto=args[-1],
+                    ido=args[-2]
+                )
+            )
             session.commit()
             for obj in session.query(Act).filter(Act.dt == now):
                 embed = discord.Embed(title=obj.olt,description=obj.tfc)
