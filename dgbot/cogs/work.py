@@ -42,6 +42,32 @@ class work(commands.Cog):
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
 
+    @commands.command(name="actid")
+    async def actid(self, ctx, *args):
+        if ctx.author.id in [269592803602989058]: # D
+            conn = dbc(config("host"))
+            dump = conn.consult(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos={args[-2]}")
+            now=datetime.now()
+            session.add(
+                Act(
+                    dt=now,
+                    usr=ctx.author.id,
+                    sn=args[-3],
+                    ctr=dump[0][0],
+                    cto=args[-1],
+                    ido=args[-2]
+                )
+            )
+            session.commit()
+            for obj in session.query(Act).filter(Act.dt == now):
+                embed = discord.Embed(title=obj.olt,description=obj.tfc)
+                embed.set_author(name=obj.usr)
+                embed.add_field(name='Comando:', value=f'!ativa_onu_vlan {obj.sn} {obj.vln} {obj.ctr} {obj.cto}', inline=True)
+                embed.set_footer(text=obj.id)
+                await ctx.author.send(embed = embed)
+        else:
+            await ctx.send(f"{ctx.author} você não tem autorização")
+
     @commands.command(name="actreplace")
     async def replace(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D

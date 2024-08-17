@@ -1,5 +1,5 @@
 from ext.database import base, engine, session
-from models import Act, Vln, Atv
+from models import Act, Atv
 import datetime
 
 
