@@ -23,20 +23,18 @@ class work(commands.Cog):
                 Act(
                     dt=now,
                     usr=ctx.author.id,
-                    olt=args[1],
-                    tfc=args[4],
+                    ido=args[-2],
                     sn=args[-3],
-                    vln=args[-6].replace('#',''),
                     ctr=dump[0][0],
                     cto=args[-1],
-                    ido=args[-2]
                 )
             )
             session.commit()
+            vln=args[-6].replace('#',''),
             for obj in session.query(Act).filter(Act.dt == now):
-                embed = discord.Embed(title=obj.olt,description=obj.tfc)
+                embed = discord.Embed(title='olt',description='description')
                 embed.set_author(name=obj.usr)
-                embed.add_field(name='Comando:', value=f'!ativa_onu_vlan {obj.sn} {obj.vln} {obj.ctr} {obj.cto}', inline=True)
+                embed.add_field(name='Comando:', value=f'!ativa_onu_vlan {obj.sn} {vln} {obj.ctr} {obj.cto}', inline=True)
                 embed.set_footer(text=obj.id)
                 await ctx.author.send(embed = embed)
         else:
@@ -46,23 +44,23 @@ class work(commands.Cog):
     async def actid(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
             conn = dbc(config("host"))
-            dump = conn.consult(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos={args[-2]}")
+            dump = conn.consult(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos={args[0]}")
             now=datetime.now()
             session.add(
                 Act(
                     dt=now,
                     usr=ctx.author.id,
-                    sn=args[-3],
+                    ido=args[0],
+                    sn=args[1],
                     ctr=dump[0][0],
-                    cto=args[-1],
-                    ido=args[-2]
+                    cto=args[2],
                 )
             )
             session.commit()
             for obj in session.query(Act).filter(Act.dt == now):
-                embed = discord.Embed(title=obj.olt,description=obj.tfc)
+                embed = discord.Embed(title='title',description='description')
                 embed.set_author(name=obj.usr)
-                embed.add_field(name='Comando:', value=f'!ativa_onu_vlan {obj.sn} {obj.vln} {obj.ctr} {obj.cto}', inline=True)
+                embed.add_field(name='name:', value=f'value', inline=True)
                 embed.set_footer(text=obj.id)
                 await ctx.author.send(embed = embed)
         else:

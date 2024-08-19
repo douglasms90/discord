@@ -7,13 +7,10 @@ class Act(base):
     id = db.Column(db.Integer, primary_key=True)
     dt = db.Column(db.DateTime(20))
     usr = db.Column(db.String(20))
-    olt = db.Column(db.String(20))
-    tfc = db.Column(db.String(10))
+    ido = db.Column(db.String(10))
     sn = db.Column(db.String(20))
-    vln = db.Column(db.String(5))
     ctr = db.Column(db.String(10))
     cto = db.Column(db.String(5))
-    ido = db.Column(db.String(10))
 
 class Atv(base):
     __tablename__ = 'atv'

@@ -10,7 +10,7 @@ def createdb():
     base.metadata.create_all(engine)
 
 def insertdb():
-    #session.add(Act(id=1565,dt=datetime.datetime(2024,2,22,12,10,26,85696),usr='douglasms',olt='OLT-ARROZAL',tfc='0/7/11:',sn='48575443A94F32AC',vln='1219',ctr='69534',cto='L02'))
+    #session.add(Act(id=1,dt=datetime.datetime(2023,1,17,18,2,0,0),usr='269592803602989058',ido='',sn='4D4B5047B4964348',ctr='65628',cto='M08'))
     session.commit()
 
 def deletedb():
@@ -18,6 +18,5 @@ def deletedb():
     session.commit()
 
 def updatedb():
-    #session.query(Atv).filter(Atv.id == 101).update({'id':101, 'tp':'rf',                  'nm':'inback',  'pm':134.98,    'qt':1.0,       'rc':'',    'pa':137.46})
+    #session.query(Act).filter(Act.id == 1).update({'id':1})
     session.commit()
-
