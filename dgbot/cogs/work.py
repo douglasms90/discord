@@ -79,9 +79,9 @@ class work(commands.Cog):
     async def today(self, ctx):
         if ctx.author.id in [269592803602989058]: # D
             for obj in session.query(Act).filter(Act.dt.like(f'{datetime.now().date()}%')):
-                embed = discord.Embed(title=obj.olt,description=obj.tfc)
+                embed = discord.Embed(title='tittle',description='description')
                 embed.set_author(name=obj.usr)
-                embed.add_field(name='', value=f'!ativa_onu_vlan {obj.sn} {obj.vln} {obj.ctr} {obj.cto}', inline=True)
+                embed.add_field(name='name', value=f'value', inline=True)
                 embed.set_footer(text=obj.id)
                 await ctx.author.send(embed = embed)
         else:
