@@ -32,7 +32,7 @@ class work(commands.Cog):
             session.commit()
             vln=args[-6].replace('#',''),
             for obj in session.query(Act).filter(Act.dt == now):
-                embed = discord.Embed(title='olt',description='description')
+                embed = discord.Embed(title='tittle',description='description')
                 embed.set_author(name=obj.usr)
                 embed.add_field(name='Comando:', value=f'!ativa_onu_vlan {obj.sn} {vln} {obj.ctr} {obj.cto}', inline=True)
                 embed.set_footer(text=obj.id)
