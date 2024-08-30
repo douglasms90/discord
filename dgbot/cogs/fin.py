@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from ext.database import session
 from ext.webscraping import bs
-from models import Atv
+from models import Atv, Test
 
 from bs4 import BeautifulSoup
 import requests
@@ -16,26 +16,32 @@ class atv(commands.Cog):
     @commands.command(name="atvsync")
     async def atvsync(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
-            for i in session.query(Atv).order_by(Atv.id):
-                st = bs(f"https://statusinvest.com.br/{i.cl}/{i.nm}")
-                session.query(Atv).filter(Atv.id == i.id).update({"pr":f"{float((st.find_all('strong',class_='value')[0].text).replace('.','').replace(',','.'))}"})
-                if i.cl == 'fundos-imobiliarios':
-                    session.query(Atv).filter(Atv.id == i.id).update({
-                        "dv":f"float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))",
-                        "vp":f"st.find_all('strong',class_='value')[6].text"
-                    })
-                if i.cl == 'acoes':
-                    session.query(Atv).filter(Atv.id == i.id).update({
-                        "dv":f"{float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))}",
-                        "pl":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[1].text}",
-                        "vp":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[3].text}"
-                    })
-                if i.cl == 'bdrs':
-                    session.query(Atv).filter(Atv.id == i.id).update({
-                        "dv":f"{float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))}"
-                        "pl":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[1].text}",
-                        "vp":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[3].text}",
-                    })
+            for i in session.query(Test).order_by(Test.id):
+                if i.cl == 'rf':
+                    pass
+                else:
+                    st = bs(f"https://statusinvest.com.br/{i.cl}/{i.nm}")
+                    session.query(Test).filter(Test.id == i.id).update({"pr":f"{float((st.find_all('strong',class_='value')[0].text).replace('.','').replace(',','.'))}"})
+                    if i.cl == 'fundos-imobiliarios':
+                        session.query(Test).filter(Test.id == i.id).update({
+                            "dv":f"{float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))}",
+                            "vp":f"{st.find_all('strong',class_='value')[6].text.replace(',','.')}"
+                        })
+                    if i.cl == 'acoes':
+                        session.query(Test).filter(Test.id == i.id).update({
+                            "dv":f"{float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))}",
+                            "pl":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[1].text.replace(',','.')}",
+                            "vp":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[3].text.replace(',','.')}"
+                        })
+                    if i.cl == 'bdrs':
+                        session.query(Test).filter(Test.id == i.id).update({
+                            "dv":f"{float((st.find_all('span',class_='sub-value')[3].text)[3:].replace(',','.'))}",
+                            "pl":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[1].text.replace(',','.')}",
+                            "vp":f"{st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[3].text.replace(',','.')}"
+                        })
+                    session.commit()
+        else:
+            await ctx.send(f"{ctx.author} você não tem autorização")
 
     @commands.command(name="atv")
     async def atv(self, ctx, *args):
@@ -43,7 +49,6 @@ class atv(commands.Cog):
             lv = rv = lf = rf = li = fi = la = ab = lu = ai = lc = cr = ct = dv = dy = yc = tl = ac = 0
             for i in session.query(Atv).order_by(Atv.id):
                 if i.tp == 'rf':
-                    session.query(Atv).filter(Atv.id == i.id).update({'rc':f'{1+1}'})
                     pr = i.pa/i.qt
                     rf += i.pa
                     pa = i.pa

@@ -23,7 +23,9 @@ class Atv(base):
     rc = db.Column(db.String(10))
     pa = db.Column(db.Float(10))
 
-'''
+class Test(base):
+    __tablename__ = 'tst'
+
     id = db.Column(db.Integer, primary_key=True)
     cl = db.Column(db.String(20))
     nm = db.Column(db.String(10))
@@ -31,6 +33,5 @@ class Atv(base):
     pm = db.Column(db.Float(10))
     qt = db.Column(db.Float(10))
     dv = db.Column(db.Float(10))
-    pl = db.Column(db.Float(10)) 
-    vp = db.Column(db.Float(10)) 
-'''
+    pl = db.Column(db.String(10)) 
+    vp = db.Column(db.String(10)) 
