@@ -40,35 +40,77 @@ class atv(commands.Cog):
                             "vp":f"{float(st.find_all('strong',class_='value d-block lh-4 fs-4 fw-700')[3].text.replace(',','.'))}"
                         })
                     session.commit()
-        else:
-            await ctx.send(f"{ctx.author} você não tem autorização")
-
-    @commands.command(name="atvdump")
-    async def atvdump(self, ctx, *args):
-        if ctx.author.id in [269592803602989058]: # D
+    #    else:
+    #        await ctx.send(f"{ctx.author} você não tem autorização")
+    #@commands.command(name="atvdump")
+    #async def atvdump(self, ctx, *args):
+    #    if ctx.author.id in [269592803602989058]: # D
             dump = ""
-            tc = ta = 0
+            tta = ttc = tc = ta = 0
             for i in session.query(Atv).filter(Atv.id.like(f"{1}%")).order_by(Atv.id):
-                dump += f"{i.id:<5}{i.nm.upper():<9}{('%.2f' %(((i.pr-i.pm)/i.pm)*100)):<9}{i.pr:<9}{i.pm:<9}{i.qt:<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i.pr*i.qt):<9}{'%.2f' %(i.pm*i.qt)}\n"
+                dump += f"{i.id:<5}{i.nm.upper():<9}{('%.2f' %(((i.pr-i.pm)/i.pm)*100)):<9}{i.pr:<9}{i.pm:<9}{i.qt:<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i.pr*i.qt):<10}{'%.2f' %(i.pm*i.qt)}\n"
                 tc += i.pr*i.qt
                 ta += i.pm*i.qt
-            dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<9}{'%.2f' %(ta)}\n"
+            ttc += tc
+            tta += ta
+            dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
             await ctx.send(f"```{dump}```")
+            typ = tdp = tct = ct = dv = dp = yp = tc = ta = 0
             dump = ""
             for i in session.query(Atv).filter(Atv.id.like(f"{2}%")).order_by(Atv.id):
-                dump += f"{i.id:<5}{i.nm.upper():<9}{('%.2f' %(((i.pr-i.pm)/i.pm)*100)):<9}{i.pr:<9}{i.pm:<9}{'%.0f' %(i.qt):<9}{'%.2f' %(i.dv):<9}{'%.2f' %((i.dv/i.pr)*100):<9}{'%.2f' %((i.dv/i.pm)*100):<9}{'':<9}{i.vp:<9}{'%.2f' %(i.pr*i.qt):<9}{'%.2f' %(i.pm*i.qt)}\n"
+                dump += f"{i.id:<5}{i.nm.upper():<9}{('%.2f' %(((i.pr-i.pm)/i.pm)*100)):<9}{i.pr:<9}{i.pm:<9}{'%.0f' %(i.qt):<9}{'%.2f' %(i.dv):<9}{'%.2f' %((i.dv/i.pr)*100):<9}{'%.2f' %((i.dv/i.pm)*100):<9}{'':<9}{i.vp:<9}{'%.2f' %(i.pr*i.qt):<10}{'%.2f' %(i.pm*i.qt)}\n"
+                tc += i.pr*i.qt
+                ta += i.pm*i.qt
+                dv += i.dv
+                dp += (i.dv/i.pr)*100
+                yp += (i.dv/i.pm)*100
+                ct += 1
+            tct += ct
+            tdp += dp
+            typ += yp
+            ttc += tc
+            tta += ta
+            dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'%.2f' %(dv):<9}{'%.2f' %(dp/ct):<9}{'%.2f' %(yp/ct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
             await ctx.send(f"```{dump}```")
             dump = ""
+            ct = dv = dp = yp = tc = ta = 0
             for i in session.query(Atv).filter(Atv.id.like(f"{3}%")).order_by(Atv.id):
-                dump += f"{i.id:<5}{i.nm.upper():<9}{'%.2f' %(((i.pr-i.pm)/i.pm)*100):<9}{i.pr:<9}{i.pm:<9}{'%.0f' %(i.qt):<9}{'%.2f' %(i.dv):<9}{'%.2f' %((i.dv/i.pr)*100):<9}{'%.2f' %((i.dv/i.pm)*100):<9}{i.pl:<9}{i.vp:<9}{'%.2f' %(i.pr*i.qt):<9}{'%.2f' %(i.pm*i.qt)}\n"
+                dump += f"{i.id:<5}{i.nm.upper():<9}{'%.2f' %(((i.pr-i.pm)/i.pm)*100):<9}{i.pr:<9}{i.pm:<9}{'%.0f' %(i.qt):<9}{'%.2f' %(i.dv):<9}{'%.2f' %((i.dv/i.pr)*100):<9}{'%.2f' %((i.dv/i.pm)*100):<9}{i.pl:<9}{i.vp:<9}{'%.2f' %(i.pr*i.qt):<10}{'%.2f' %(i.pm*i.qt)}\n"
+                tc += i.pr*i.qt
+                ta += i.pm*i.qt
+                dv += i.dv
+                dp += (i.dv/i.pr)*100
+                yp += (i.dv/i.pm)*100
+                ct += 1
+            tdp += dp
+            typ += yp
+            ttc += tc
+            tta += ta
+            tct += ct
+            dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'%.2f' %(dv):<9}{'%.2f' %(dp/ct):<9}{'%.2f' %(yp/ct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
             await ctx.send(f"```{dump}```")
             dump = ""
+            tc = ta = 0
             for i in session.query(Atv).filter(Atv.id.like(f"{4}%")).order_by(Atv.id):
-                dump += f"{i.id:<5}{i.nm.upper():<9}{'%.2f' %(((i.pr-i.pm)/i.pm)*100):<9}{i.pr:<9}{i.pm:<9}{'%.0f' %(i.qt):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i.pr*i.qt):<9}{'%.2f' %(i.pm*i.qt)}\n"
+                dump += f"{i.id:<5}{i.nm.upper():<9}{'%.2f' %(((i.pr-i.pm)/i.pm)*100):<9}{i.pr:<9}{i.pm:<9}{'%.0f' %(i.qt):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i.pr*i.qt):<10}{'%.2f' %(i.pm*i.qt)}\n"
+                tc += i.pr*i.qt
+                ta += i.pm*i.qt
+            ttc += tc
+            tta += ta
+            dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
             await ctx.send(f"```{dump}```")
             dump = ""
+            tc = ta = 0
             for i in session.query(Atv).filter(Atv.id.like(f"{5}%")).order_by(Atv.id):
-                dump += f"{i.id:<5}{i.nm.upper():<9}{'%.2f' %(((i.pr-i.pr)/i.pm)*100):<9}{i.pr:<9}{'':<9}{'%.0f' %(i.qt):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i.pr*i.qt):<9}{''}\n"
+                dump += f"{i.id:<5}{i.nm.upper():<9}{'%.2f' %(((i.pr-i.pr)/i.pm)*100):<9}{i.pr:<9}{'':<9}{'%.0f' %(i.qt):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i.pr*i.qt):<10}{''}\n"
+                tc += i.pr*i.qt
+                ta += i.pm*i.qt
+            ttc += tc
+            tta += ta
+            dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{''}\n"
+            await ctx.send(f"```{dump}```")
+            dump = ""
+            dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'%.2f' %(tdp/tct):<9}{'%.2f' %(typ/tct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(ttc):<10}{'%.2f' %(tta)}\n"
             await ctx.send(f"```{dump}```")
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")

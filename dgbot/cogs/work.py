@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 from ext.database import session, dbc
-from models import Act
+from models import Act, Nail
 from datetime import datetime
 from decouple import config
 
@@ -19,16 +19,7 @@ class work(commands.Cog):
             conn = dbc(config("host"))
             dump = conn.consult(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos={args[-2]}")
             now=datetime.now()
-            session.add(
-                Act(
-                    dt=now,
-                    usr=ctx.author.id,
-                    ido=args[-2],
-                    sn=args[-3],
-                    ctr=dump[0][0],
-                    cto=args[-1],
-                )
-            )
+            session.add(Act(dt=now,usr=ctx.author.id,ido=args[-2],sn=args[-3],ctr=dump[0][0],cto=args[-1]))
             session.commit()
             vln=args[-6].replace('#',''),
             for obj in session.query(Act).filter(Act.dt == now):
@@ -46,23 +37,14 @@ class work(commands.Cog):
             conn = dbc(config("host"))
             dump = conn.consult(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos={args[0]}")
             now=datetime.now()
-            session.add(
-                Act(
-                    dt=now,
-                    usr=ctx.author.id,
-                    ido=args[0],
-                    sn=args[1],
-                    ctr=dump[0][0],
-                    cto=args[2],
-                )
-            )
+            session.add(Act(dt=now,usr=ctx.author.id,ido=args[0],sn=args[1],ctr=dump[0][0],cto=args[2]))
             session.commit()
             for obj in session.query(Act).filter(Act.dt == now):
                 embed = discord.Embed(title='title',description='description')
                 embed.set_author(name=obj.usr)
                 embed.add_field(name='name:', value=f'value', inline=True)
                 embed.set_footer(text=obj.id)
-                await ctx.author.send(embed = embed)
+            await ctx.author.send(embed = embed)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
 
@@ -146,6 +128,24 @@ class work(commands.Cog):
                 await ctx.author.send(embed = embed)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
+
+    @commands.command(name="nail")
+    async def nail(self, ctx, *args):
+            now=datetime.now()
+            session.add(Nail(dt=now))
+            session.commit()
+            for obj in session.query(Nail).filter(Nail.dt == now):
+                embed = discord.Embed(title='title',description='description')
+                embed.set_author(name='usr')
+                embed.add_field(name='name:', value=f'value', inline=True)
+                embed.set_footer(text='id')
+                await ctx.author.send(embed = embed)
+
+    @commands.command(name="naildelete")
+    async def delete(self, ctx, *args):
+            session.query(Nail).filter(Nail.id == args[0]).delete()
+            session.commit()
+            await ctx.send('Feito!')
 
 async def setup(bot):
     await bot.add_cog(work(bot))

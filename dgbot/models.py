@@ -24,3 +24,9 @@ class Atv(base):
     dv = db.Column(db.Float(10))
     pl = db.Column(db.Float(10)) 
     vp = db.Column(db.Float(10)) 
+
+class Nail(base):
+    __tablename__ = 'nail'
+
+    id = db.Column(db.Integer, primary_key=True)
+    dt = db.Column(db.DateTime(20))
