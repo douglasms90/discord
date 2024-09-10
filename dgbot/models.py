@@ -30,3 +30,4 @@ class Nail(base):
 
     id = db.Column(db.Integer, primary_key=True)
     dt = db.Column(db.DateTime(20))
+    pr = db.Column(db.Float(10))

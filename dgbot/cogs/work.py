@@ -129,23 +129,36 @@ class work(commands.Cog):
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
 
+    # Nail --------------------------------------------------------
+
     @commands.command(name="nail")
     async def nail(self, ctx, *args):
             now=datetime.now()
-            session.add(Nail(dt=now))
+            session.add(Nail(dt=now,pr=args[0]))
             session.commit()
-            for obj in session.query(Nail).filter(Nail.dt == now):
-                embed = discord.Embed(title='title',description='description')
-                embed.set_author(name='usr')
+            for i in session.query(Nail).filter(Nail.dt == now):
+                embed = discord.Embed(title=f'{now}',description='Unha')
+                embed.set_author(name=ctx.author)
                 embed.add_field(name='name:', value=f'value', inline=True)
                 embed.set_footer(text='id')
-                await ctx.author.send(embed = embed)
+                await ctx.send(embed = embed)
 
     @commands.command(name="naildelete")
     async def delete(self, ctx, *args):
             session.query(Nail).filter(Nail.id == args[0]).delete()
             session.commit()
-            await ctx.send('Feito!')
+            await ctx.send(f'Feito! Deletado serviço id: {args[0]}')
+
+    @commands.command(name="nailtoday")
+    async def nailtoday(self, ctx):
+        tl = 0
+        for i in session.query(Nail).filter(Nail.dt.like(f'{datetime.now().date()}%')):
+            tl += i.pr
+        embed = discord.Embed(title=f'{datetime.now().date()}',description='Faturamento do dia')
+        embed.set_author(name=ctx.author)
+        embed.add_field(name='Total', value=f"R${tl}", inline=True)
+        embed.set_footer(text='')
+        await ctx.send(embed = embed)
 
 async def setup(bot):
     await bot.add_cog(work(bot))

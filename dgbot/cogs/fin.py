@@ -13,8 +13,8 @@ class atv(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="atvsync")
-    async def atvsync(self, ctx, *args):
+    @commands.command(name="atv")
+    async def atv(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
             for i in session.query(Atv).order_by(Atv.id):
                 if i.cl == 'rf':
