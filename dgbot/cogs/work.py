@@ -131,7 +131,7 @@ class work(commands.Cog):
 
     # Nail --------------------------------------------------------
 
-    @commands.command(name="nail")
+    @commands.command(name="nails")
     async def nail(self, ctx, *args):
             now=datetime.now()
             session.add(Nail(dt=now,pr=args[0]))
@@ -143,18 +143,20 @@ class work(commands.Cog):
                 embed.set_footer(text='id')
                 await ctx.send(embed = embed)
 
-    @commands.command(name="naildelete")
+    @commands.command(name="nailsdelete")
     async def delete(self, ctx, *args):
             session.query(Nail).filter(Nail.id == args[0]).delete()
             session.commit()
             await ctx.send(f'Feito! Deletado serviço id: {args[0]}')
 
-    @commands.command(name="nailtoday")
+    @commands.command(name="nailstoday")
     async def nailtoday(self, ctx):
         tl = 0
+        sl = ""
         for i in session.query(Nail).filter(Nail.dt.like(f'{datetime.now().date()}%')):
+            sl += f"{i.id}\t-\tR${i.pr}\t-\t{i.dt.hour}:{i.dt.minute}\n"
             tl += i.pr
-        embed = discord.Embed(title=f'{datetime.now().date()}',description='Faturamento do dia')
+        embed = discord.Embed(title=f'{datetime.now().date()}',description=sl)
         embed.set_author(name=ctx.author)
         embed.add_field(name='Total', value=f"R${tl}", inline=True)
         embed.set_footer(text='')
