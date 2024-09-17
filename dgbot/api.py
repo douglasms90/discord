@@ -2,7 +2,7 @@ import discord, os, asyncio
 from discord.ext import commands
 from decouple import config
 
-from ext.commands import createdb
+from ext.commands import updatedb
 
 
 bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())

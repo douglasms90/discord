@@ -17,8 +17,6 @@ engine = db.create_engine('sqlite:///development.db', echo=True)
 
 Session = dbo.sessionmaker(bind=engine)
 
-session = Session()
-
 class dbc():
     db_ = None
     def __init__(self, host):
