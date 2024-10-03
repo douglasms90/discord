@@ -7,6 +7,7 @@ from ext.commands import insertdb
 bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
 async def create_api():
+    insertdb()
     await bot.load_extension(f'cogs._init')
     await bot.load_extension(f'cogs.work')
     await bot.load_extension(f'cogs.fin')
