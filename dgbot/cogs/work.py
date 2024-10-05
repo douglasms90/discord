@@ -9,6 +9,7 @@ from decouple import config
 from bs4 import BeautifulSoup
 import requests
 
+
 class work(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
