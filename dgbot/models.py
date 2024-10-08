@@ -31,3 +31,13 @@ class Nail(base):
     id = db.Column(db.Integer, primary_key=True)
     dt = db.Column(db.DateTime(20))
     pr = db.Column(db.Float(10))
+
+class Mkt(base):
+    __tablename__ = 'mkt'
+
+    id = db.Column(db.Integer, primary_key=True)
+    mc = db.Column(db.String(5))
+    nm = db.Column(db.String(20))
+    kc = db.Column(db.Float(5))
+    pu = db.Column(db.Float(5))
+    pd = db.Column(db.Float(5))

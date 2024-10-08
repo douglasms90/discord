@@ -2,12 +2,11 @@ import discord, os, asyncio
 from discord.ext import commands
 from decouple import config
 
-#from ext.commands import insertdb
+#from ext.commands import createdb
 
 bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
 async def create_api():
-    #insertdb()
     await bot.load_extension(f'cogs._init')
     await bot.load_extension(f'cogs.psl')
     await bot.load_extension(f'cogs.fin')
