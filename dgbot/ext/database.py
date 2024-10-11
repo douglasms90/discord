@@ -33,6 +33,3 @@ class dbc():
 
     def close(self):
         self.db_.close()
-
-def init_app(app):
-    db.init_app(app)
