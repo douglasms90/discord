@@ -1,8 +1,9 @@
 import discord
 from discord.ext import commands
 
-from ext.database import Session
+from ext.database import Session, databaseConnection
 from models import Mkt
+from decouple import config
 
 class tst(commands.Cog):
     def __init__(self, bot):
@@ -31,6 +32,10 @@ class tst(commands.Cog):
 
     # -------------------------------
 
+    @commands.command(name="read")
+    async def read(self, ctx):
+        with databaseConnection(config("pslhost")) as db:
+            await ctx.send(db.read("SELECT * FROM datacamp_courses"))
 
     # --------------------------------
 

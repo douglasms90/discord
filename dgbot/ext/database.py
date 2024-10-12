@@ -33,3 +33,51 @@ class dbc():
 
     def close(self):
         self.db_.close()
+
+class databaseConnection():
+    _db = None
+
+    def __init__(self, pslhost):
+        self._db = psycopg2.connect(pslhost)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self._db.close()
+
+    def create(self, pslquery, values):
+        try:
+            with self._db.cursor() as cur:
+                cur.execute(pslquery, values)
+                self._db.commit()
+            return "Creation successful"
+        except Exception as e:
+            return f"Error during creation: {e}"
+
+    def read(self, pslquery):
+        try:
+            with self._db.cursor() as cur:
+                cur.execute(pslquery)
+                dump = cur.fetchall()
+            return dump
+        except Exception as e:
+            return f"Impossible to connect to the database, check your code. Error: {e}"
+
+    def update(self, pslquery, values):
+        try:
+            with self._db.cursor() as cur:
+                cur.execute(pslquery, values)
+                self._db.commit()
+            return "Update successful"
+        except Exception as e:
+            return f"Error during update: {e}"
+
+    def delete(self, pslquery, values):
+        try:
+            with self._db.cursor() as cur:
+                cur.execute(pslquery, values)
+                self._db.commit()
+            return "Deletion successful"
+        except Exception as e:
+            return f"Error during deletion: {e}"
