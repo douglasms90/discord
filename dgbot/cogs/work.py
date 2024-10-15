@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from ext.database import Session, dbc
+from ext.database import Session, dbc, databaseConnection
 from models import Act, Nail
 from datetime import datetime
 from decouple import config
@@ -139,36 +139,32 @@ class work(commands.Cog):
     @commands.command(name="nails")
     async def nail(self, ctx, *args):
         now=datetime.now()
-        with Session() as session:
-            session.add(Nail(dt=now,pr=args[0]))
-            session.commit()
-            for i in session.query(Nail).filter(Nail.dt == now):
-                embed = discord.Embed(title=f'{now}',description='Unha')
-                embed.set_author(name=ctx.author)
-                embed.add_field(name='name:', value=f'value', inline=True)
-                embed.set_footer(text='id')
-            await ctx.send(embed = embed)
+        with databaseConnection(config("hostMydb")) as db:
+            db.insert("INSERT INTO nails(dt, pr) VALUES(%s, %s)", (now, args[0],))
+            view = db.read("SELECT * FROM nails WHERE dt=%s", (now,))
+        for i in view:
+            embed = discord.Embed(title=f'{now}',description='Unha')
+            embed.set_author(name=ctx.author)
+            embed.add_field(name='', value=f'', inline=True)
+            embed.set_footer(text=view[0])
+        await ctx.send(embed = embed)
 
     @commands.command(name="nailsdelete")
     async def delete(self, ctx, *args):
-        with Session() as session:
-            session.query(Nail).filter(Nail.id == args[0]).delete()
-            session.commit()
-        await ctx.send(f'Feito! Deletado serviço id: {args[0]}')
+        with databaseConnection(config("hostMydb")) as db:
+            before = db.read(f"SELECT * FROM nails WHERE id = {args[0]}")
+            db.delete(f"DELETE FROM nails WHERE id = {args[0]}")
+        await ctx.send(f'{before}\nDeletado com sucesso.')
 
     @commands.command(name="nailstoday")
     async def nailtoday(self, ctx):
-        tl = 0
-        sl = ""
-        with Session() as session:
-            for i in session.query(Nail).filter(Nail.dt.like(f'{datetime.now().date()}%')):
-                sl += f"{i.id}\t-\tR${i.pr}\t-\t{i.dt.hour}:{i.dt.minute}\n"
-                tl += i.pr
-            embed = discord.Embed(title=f'{datetime.now().date()}',description=sl)
-            embed.set_author(name=ctx.author)
-            embed.add_field(name='Total', value=f"R${tl}", inline=True)
-            embed.set_footer(text='')
-        await ctx.send(embed = embed)
+        dump = ""
+        with databaseConnection(config("hostMydb")) as db:
+            allnails = db.read("SELECT * FROM nails WHERE DATE(dt) = CURRENT_DATE")
+        print(allnails)
+        for i in allnails:
+            dump += f"{i[0]}, {i[1]}, {i[2]}\n"
+        await ctx.send(f"```{dump}```")
 
 async def setup(bot):
     await bot.add_cog(work(bot))
