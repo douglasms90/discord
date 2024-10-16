@@ -1,18 +1,19 @@
 import discord
 from discord.ext import commands
 
-from ext.database import Session, dbc, databaseConnection
-from models import Act, Nail
-from datetime import datetime
+from ext.database import dbc, databaseConnection
 from decouple import config
-
-from bs4 import BeautifulSoup
-import requests
-
 
 class work(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name="acttst")
+    async def act(self, ctx, *args):
+        if ctx.author.id in [269592803602989058]: # D
+            with databaseConnection(config("host")) as db:
+                cr = db.read(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos=44612")
+                print(cr)
 
     @commands.command(name="act")
     async def act(self, ctx, *args):
@@ -141,7 +142,7 @@ class work(commands.Cog):
         now=datetime.now()
         with databaseConnection(config("hostMydb")) as db:
             db.insert("INSERT INTO nails(dt, pr) VALUES(%s, %s)", (now, args[0],))
-            view = db.read("SELECT * FROM nails WHERE dt=%s", (now,))
+            view = db.read("SELECT * FROM nails WHERE dt={now}")
         for i in view:
             embed = discord.Embed(title=f'{now}',description='Unha')
             embed.set_author(name=ctx.author)

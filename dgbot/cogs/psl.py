@@ -1,8 +1,7 @@
 import discord
 from discord.ext import commands
 
-from ext.database import Session, databaseConnection
-from models import Mkt
+from ext.database import databaseConnection
 from decouple import config
 
 class tst(commands.Cog):

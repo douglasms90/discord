@@ -1,21 +1,7 @@
-import sqlalchemy
-import sqlalchemy.orm
-
 from psycopg2 import connect
 import psycopg2.extensions
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
-
-
-db = sqlalchemy
-
-dbo = sqlalchemy.orm
-
-base = dbo.declarative_base()
-
-engine = db.create_engine('sqlite:///development.db', echo=True)
-
-Session = dbo.sessionmaker(bind=engine)
 
 class dbc():
     db_ = None
