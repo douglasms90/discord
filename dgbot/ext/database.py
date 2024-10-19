@@ -59,10 +59,10 @@ class databaseConnection:
         except Exception as e:
             return print(f"Error during insertion: {e}")
 
-    def read(self, query):
+    def read(self, query, values):
         try:
             with self._db.cursor() as cur:
-                cur.execute(query)
+                cur.execute(query, values)
                 dump = cur.fetchall()
                 print("Dump data succesful")
             return dump
@@ -78,10 +78,10 @@ class databaseConnection:
         except Exception as e:
             return print(f"Error during update: {e}")
 
-    def delete(self, query):
+    def delete(self, query, values):
         try:
             with self._db.cursor() as cur:
-                cur.execute(query)
+                cur.execute(query, values)
                 self._db.commit()
             return print("Deletion data successful")
         except Exception as e:

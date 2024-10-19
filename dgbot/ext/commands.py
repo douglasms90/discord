@@ -1,7 +1,5 @@
-from ext.database import base, engine, Session, db, databaseConnection
-from models import Act, Atv, Nail, Mkt
+from ext.database import databaseConnection
 from decouple import config
-
 
 def dropdb():
     base.metadata.drop_all(engine)
@@ -24,7 +22,7 @@ def deletedb():
 
 def updatedb():
     with Session() as session:
-        #session.query(Act).filter(Act.id == 1).update(	session.add(Mkt(mc='id':1)
+        #session.query(Act).filter(Act.id == 1).update(session.add(Mkt(mc='id':1)
         #session.query(Nail).filter(Nail.id == 9).update(session.add(Mkt(mc='id':10)
         #session.query(Nail).filter(Nail.id == 5).update(session.add(Mkt(mc='dt':datetime.datetime(2024,9,13,14,0,0,0))
         session.commit()
@@ -43,7 +41,7 @@ def createdt():
 
 def insert():
     with databaseConnection(config("hostMydb")) as db:
-        db.insert("INSERT INTO mkt(id, mc, nm,  pd, pu) VALUES(%s, %s, %s, %s, %s)", (101, 'carb', 'arroz', 23.99, 29.9))
+        db.insert("INSERT INTO mkt (id, mc, nm,  pd, pu) VALUES(%s, %s, %s, %s, %s)", (101, 'carb', 'arroz', 23.99, 29.9))
         db.insert("INSERT INTO atv (id, cl, nm, pr, pm, qt, dv, pl, vp) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (101, 'rf', 'firfdi', 1894.08, 1894.08, 1.0, None, None, None))
         db.insert("INSERT INTO act (id, dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s, %s)", (1, '2023-01-17 18:02:00.000000', 269592803602989058, 201942, '4D4B5047B4964348', 65628, 'M08'))
         db.insert("INSERT INTO nails (id, dt, pr) VALUES(%s, %s, %s)", (1, '2024-09-11 10:01:20.599270', 20.0))

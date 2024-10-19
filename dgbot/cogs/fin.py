@@ -13,7 +13,7 @@ class fin(commands.Cog):
     async def atv(self, ctx):
         if ctx.author.id in [269592803602989058]:  # D
             with databaseConnection(config("hostMydb")) as db:
-                allatv = db.read("SELECT * FROM atv")
+                allatv = db.read("SELECT * FROM atv", (None))
                 for i in allatv:
                     if i[1] == 'rf':
                         pass
@@ -41,7 +41,7 @@ class fin(commands.Cog):
     #async def atvdump(self, ctx, *args):
     #    if ctx.author.id in [269592803602989058]:  D
             with databaseConnection(config("hostMydb")) as db:
-                active = db.read(f"SELECT * FROM atv ORDER BY id asc")
+                active = db.read(f"SELECT * FROM atv ORDER BY id asc", (None))
             dump = ""
             tta = ttc = tc = ta = 0
             for i in active:
@@ -119,21 +119,22 @@ class fin(commands.Cog):
 
     @commands.command(name="atvreplace")
     async def replace(self, ctx, *args):
-        if ctx.author.id in [269592803602989058]: # D
+        if ctx.author.id in [269592803602989058]:  # D
             with databaseConnection(config("hostMydb")) as db:
-                before = db.read(f"SELECT * FROM atv WHERE id = {args[0]}")
-                db.update(f"UPDATE atv SET {args[1]} = %s WHERE id = %s", (args[2].replace(',', '.'), args[0]))
-                after = db.read(f"SELECT * FROM atv WHERE id = {args[0]}")
-            await ctx.send(f"Update bem sucedido;\nAnteriormente: {before[0][0]}, {before[0][1]}, {before[0][2]}, {before[0][3]}, {before[0][4]}, {before[0][5]}, {before[0][6]}, {before[0][7]}, {before[0][8]}\nPosteriormente: {after[0][0]}, {after[0][1]}, {after[0][2]}, {after[0][3]}, {after[0][4]}, {after[0][5]}, {after[0][6]}, {after[0][7]}, {after[0][8]}")
+                before = db.read("SELECT * FROM atv WHERE id = %s", (args[0],))
+                db.update("UPDATE atv SET {} = %s WHERE id = %s".format(args[1]), (args[2].replace(',', '.'), args[0]))
+                after = db.read("SELECT * FROM atv WHERE id = %s", (args[0],))
+            await ctx.send(f"Update bem sucedido;\nAnteriormente: {before[0]}\nPosteriormente: {after[0]}")
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
+
 
     @commands.command(name="atvdelete")
     async def delete(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
             with databaseConnection(config("hostMydb")) as db:
-                before = db.read(f"SELECT * FROM atv WHERE id = {args[0]}")
-                db.delete(f"DELETE FROM atv WHERE id = {args[0]}")
+                before = db.read(f"SELECT * FROM atv WHERE id = %s", (args[0]))
+                db.delete(f"DELETE FROM atv WHERE id = %s", (args[0]))
             await ctx.send(f'{before}\nDeletado com sucesso.')
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
