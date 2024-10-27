@@ -8,8 +8,8 @@ class tst(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="tst")
-    async def meu_comando(self, ctx):
+    @commands.command(name="btn")
+    async def btn_test(self, ctx):
         view = discord.ui.View()
         
         # Primeiro botão

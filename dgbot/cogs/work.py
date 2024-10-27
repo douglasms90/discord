@@ -139,7 +139,7 @@ class work(commands.Cog):
             embed = discord.Embed(title=f'{now}',description='Unha')
             embed.set_author(name=ctx.author)
             embed.add_field(name='', value=f'', inline=True)
-            embed.set_footer(text=view[0])
+            embed.set_footer(text=i[0])
         await ctx.send(embed = embed)
 
     @commands.command(name="nailsdelete")
