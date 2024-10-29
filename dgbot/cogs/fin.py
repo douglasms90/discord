@@ -124,7 +124,8 @@ class fin(commands.Cog):
                 before = db.read("SELECT * FROM atv WHERE id = %s", (args[0],))
                 db.update("UPDATE atv SET {} = %s WHERE id = %s".format(args[1]), (args[2].replace(',', '.'), args[0]))
                 after = db.read("SELECT * FROM atv WHERE id = %s", (args[0],))
-            await ctx.send(f"Update bem sucedido;\nAnteriormente: {before[0]}\nPosteriormente: {after[0]}")
+            embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
+            await ctx.author.send(embed=embed)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
 
@@ -135,7 +136,7 @@ class fin(commands.Cog):
             with databaseConnection(config("hostMydb")) as db:
                 before = db.read(f"SELECT * FROM atv WHERE id = %s", (args[0]))
                 db.delete(f"DELETE FROM atv WHERE id = %s", (args[0]))
-            await ctx.send(f'{before}\nDeletado com sucesso.')
+            embed = discord.Embed(title='Replace', description=f'Anteriormente: {before}\nDeletado com sucesso.')
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
 

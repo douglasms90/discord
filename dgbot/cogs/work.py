@@ -17,10 +17,7 @@ class work(commands.Cog):
             now = datetime.now()
             with databaseConnection(config("hostMydb")) as db:
                 db.insert(f"INSERT INTO act (dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, ctx.author.id, args[-2], args[-3], cr[0][0], args[-1],))
-            embed = discord.Embed(title='tittle',description='description')
-            embed.set_author(name='')
-            embed.add_field(name='Comando:', value=f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {cr[0][0]} {args[-1]}", inline=True)
-            embed.set_footer(text='')
+            embed = discord.Embed(title='tittle',description=f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {cr[0][0]} {args[-1]}")
             await ctx.send(embed = embed)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
@@ -49,7 +46,8 @@ class work(commands.Cog):
                 before = db.read(f"SELECT * FROM act WHERE id={args[0]}", (None))
                 db.update(f"UPDATE act SET {args[1]} = %s WHERE id = %s", (args[2], args[0]))
                 after = db.read(f"SELECT * FROM act WHERE id={args[0]}", (None))
-            await ctx.send(f'Anteriormente: {before}\nPosteriormente: {after}!')
+            embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
+            await ctx.author.send(embed=embed)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização")
 
