@@ -8,27 +8,6 @@ class tst(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="btn")
-    async def btn_test(self, ctx):
-        view = discord.ui.View()
-        
-        # Primeiro botão
-        button1 = discord.ui.Button(style=discord.ButtonStyle.primary, label="Botão 1")
-        
-        # Segundo botão
-        button2 = discord.ui.Button(style=discord.ButtonStyle.primary, label="Botão 2")
-        
-        async def button_callback(interaction: discord.Interaction):
-            await interaction.response.send_message(f"Botão {interaction.component.label} pressionado!", ephemeral=True)
-        
-        button1.callback = button_callback
-        button2.callback = button_callback
-        
-        view.add_item(button1)
-        view.add_item(button2)
-        
-        await ctx.send("Escolha um botão:", view=view)
-
     @commands.command(name="mkt")
     async def view(self, ctx):
         with databaseConnection(config("hostMydb")) as db:
@@ -39,7 +18,10 @@ class tst(commands.Cog):
             dump += f"{i[0]:<5}{i[1]:<5}{i[2]:<23}{i[3]:<8}{('%.2f' %((i[3]+i[4])/2)):<8}{i[4]}\n"
         await ctx.send(f"```{dump}```")
 
-    @commands.command(name="mktreplace")
+    @commands.command(name="aiaiai...")
+    async def ai(self, ctx):
+        await ctx.send(f"MEU PIRUUUUUUU!")
+
     async def replace(self, ctx, *args):
         with databaseConnection(config("hostMydb")) as db:
             before = db.read(f"SELECT * FROM mkt WHERE id={args[0]}", (None))

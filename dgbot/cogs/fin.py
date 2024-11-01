@@ -9,6 +9,61 @@ class fin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name="btn")
+    async def btn(self, ctx):
+        view = discord.ui.View()
+        
+        # Botão Sync
+        button1 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="Sync")
+        # Botão act
+        button2 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="act")
+        # Botão actlite
+        button3 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="actlite")
+        
+        async def button1_callback(interaction: discord.Interaction):
+            if ctx.author.id in [269592803602989058]:  # D
+                with databaseConnection(config("hostMydb")) as db:
+                    allatv = db.read("SELECT * FROM atv", (None))
+                    for i in allatv:
+                        if i[1] == 'rf':
+                            pass
+                        else:
+                            st = bs(f"https://statusinvest.com.br/{i[1]}/{i[2]}")
+                            pr = float((st.find_all('strong', class_='value')[0].text).replace('.', '').replace(',', '.'))
+                            db.update("UPDATE atv SET pr = %s WHERE id = %s", (pr, i[0]))
+                            
+                            if i[1] == 'fundos-imobiliarios':
+                                dv = float((st.find_all('span', class_='sub-value')[3].text)[3:].replace(',', '.'))
+                                vp = float(st.find_all('strong', class_='value')[6].text.replace(',', '.'))
+                                db.update("UPDATE atv SET dv = %s, vp = %s WHERE id = %s", (dv, vp, i[0]))
+                            
+                            if i[1] == 'acoes' or i[1] == 'bdrs':
+                                dv = float((st.find_all('span', class_='sub-value')[3].text)[3:].replace(',', '.'))
+                                pl = float(st.find_all('strong', class_='value d-block lh-4 fs-4 fw-700')[1].text.replace(',', '.'))
+                                vp = float(st.find_all('strong', class_='value d-block lh-4 fs-4 fw-700')[3].text.replace(',', '.'))
+                                db.update("UPDATE atv SET dv = %s, pl = %s, vp = %s WHERE id = %s", (dv, pl, vp, i[0]))
+                
+                await interaction.response.send_message(f"Sincronização completa!", ephemeral=True)
+            else:
+                await ctx.send(f"{ctx.author} você não tem autorização.")
+
+        async def button2_callback(interaction: discord.Interaction):
+            await interaction.response.send_message(f"Resposta2", ephemeral=True)
+
+        async def button3_callback(interaction: discord.Interaction):
+            await interaction.response.send_message(f"Resposta3", ephemeral=True)
+
+        button1.callback = button1_callback
+        button2.callback = button2_callback
+        button3.callback = button3_callback
+
+        view.add_item(button1)
+        view.add_item(button2)
+        view.add_item(button3)
+
+        await ctx.send("Pressione um dos botões:", view=view)
+
+
     @commands.command(name="atv")
     async def atv(self, ctx):
         if ctx.author.id in [269592803602989058]:  # D
