@@ -4,6 +4,8 @@ from discord.ext import commands
 from ext.database import databaseConnection
 from decouple import config
 
+import yt_dlp
+
 class tst(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -30,5 +32,22 @@ class tst(commands.Cog):
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
             await ctx.author.send(embed=embed)
 
+    @commands.command(name="yt")
+    async def ai(self, ctx, *args):
+        video_url = args[0] # URL do vídeo que você quer baixar
+          
+        ydl_opts = { # Opções de download
+          'format': 'best',  # Escolhe a melhor qualidade de vídeo
+          'outtmpl': '%(title)s.%(ext)s',  # Nome do arquivo de saída
+        }
+          
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl: # Baixa o vídeo
+            ydl.download([video_url])
+            
+        await ctx.send(f"Download concluído:")
+
 async def setup(bot):
     await bot.add_cog(tst(bot))
+
+
+
