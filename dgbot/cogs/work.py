@@ -56,7 +56,7 @@ class work(commands.Cog):
         if ctx.author.id in [269592803602989058]: # D
             dump = ""
             with databaseConnection(config("hostMydb")) as db:
-                today = db.read("SELECT * FROM act WHERE DATE(dt) = CURRENT_DATE", (None))
+                today = db.read("SELECT * FROM act WHERE DATE(dt) = CURRENT_DATE order by id asc", (None))
             for i in today:
                 dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}\n"
             await ctx.send(f"```{dump}```")

@@ -7,7 +7,6 @@ from ext.commands import create
 bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
 async def create_api():
-    #create()
     await bot.load_extension(f'cogs._init')
     await bot.load_extension(f'cogs.psl')
     await bot.load_extension(f'cogs.fin')
