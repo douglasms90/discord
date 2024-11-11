@@ -1,7 +1,7 @@
 discord.py
+discord.py[voice]
 psycopg2-binary
 python-decouple
-sqlalchemy
 bs4
 requests
 asyncio

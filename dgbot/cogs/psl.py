@@ -1,12 +1,9 @@
 import discord
 from discord.ext import commands
 
-from ext.database import databaseConnection
 from decouple import config
 
-import yt_dlp
-
-class tst(commands.Cog):
+class psl(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -22,7 +19,8 @@ class tst(commands.Cog):
 
     @commands.command(name="aiaiai")
     async def aiaiai(self, ctx):
-        await ctx.send(f"Meu piru...Vem novinha vem sentando o bumbum")
+        #await ctx.send(f"Meu piru...Vem novinha vem sentando o bumbum")
+        await ctx.send(f"Chega {ctx.author}")
 
     async def replace(self, ctx, *args):
         with databaseConnection(config("hostMydb")) as db:
@@ -32,71 +30,5 @@ class tst(commands.Cog):
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
             await ctx.author.send(embed=embed)
 
-    @commands.command(name="join")
-    async def join(self, ctx):
-        # Verifica se o autor da mensagem está em um canal de voz
-        if ctx.author.voice:
-            channel = ctx.author.voice.channel
-            try:
-                print(f"Tentando conectar ao canal: {channel.name}")
-                # Conecta ao canal de voz do autor da mensagem
-                voice_client = await channel.connect()
-                await ctx.send(f"Conectado ao canal: {channel.name}")
-                print(f"Conectado ao canal: {channel.name}")
-            except discord.errors.ClientException as e:
-                await ctx.send("Já estou conectado a um canal de voz.")
-                print(f"Já estou conectado a um canal de voz: {str(e)}")
-            except discord.errors.DiscordException as e:
-                await ctx.send(f"Ocorreu um erro ao tentar conectar: {str(e)}")
-                print(f"Ocorreu um erro ao tentar conectar: {str(e)}")
-        else:
-            await ctx.send("Você precisa estar em um canal de voz para usar este comando.")
-            print("Usuário não está em um canal de voz.")
-
-    @commands.command(name="yt")
-    async def yt(self, ctx, *args):
-        ydl_opts = {
-            'format': 'bestaudio/best',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'outtmpl': '%(title)s.%(ext)s',
-            'ffmpeg_location': '/caminho/para/ffmpeg.exe',  # Adicione o caminho completo para o ffmpeg
-        }
-        
-        video_url = args[0]  # URL do vídeo que você quer baixar
-        
-        # Baixa o áudio do vídeo do YouTube
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(video_url, download=True)
-            filename = ydl.prepare_filename(info).replace(".webm", ".mp3")
-        
-        # Conecta ao canal de voz do usuário
-        if ctx.author.voice:
-            channel = ctx.author.voice.channel
-            voice_client = await channel.connect()
-            
-            # Toca a música no canal de voz
-            voice_client.play(discord.FFmpegPCMAudio(filename))
-            
-            await ctx.send(f"Agora tocando: {info['title']}")
-        else:
-            await ctx.send("Você precisa estar em um canal de voz para usar este comando.")
-
 async def setup(bot):
-    await bot.add_cog(tst(bot))
-
-# Download de vídeo básico
-'''
-video_url = args[0] # URL do vídeo que você quer baixar
-  
-ydl_opts = { # Opções de download
-  'format': 'best',  # Escolhe a melhor qualidade de vídeo
-  'outtmpl': '%(title)s.%(ext)s',  # Nome do arquivo de saída
-}
-
-with yt_dlp.YoutubeDL(ydl_opts) as ydl: # Baixa o vídeo
-    ydl.download([video_url])
-'''
+    await bot.add_cog(psl(bot))
