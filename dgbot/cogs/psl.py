@@ -19,8 +19,8 @@ class psl(commands.Cog):
 
     @commands.command(name="aiaiai")
     async def aiaiai(self, ctx):
-        #await ctx.send(f"Meu piru...Vem novinha vem sentando o bumbum")
-        await ctx.send(f"Chega {ctx.author}")
+        await ctx.send(f"Meu piru...Vem novinha vem sentando o bumbum")
+        #await ctx.send(f"Chega {ctx.author}")
 
     async def replace(self, ctx, *args):
         with databaseConnection(config("hostMydb")) as db:

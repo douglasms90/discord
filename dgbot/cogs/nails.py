@@ -11,7 +11,7 @@ class nails(commands.Cog):
 
     @commands.command(name="nails")
     async def nails(self, ctx, *args):
-        now=datetime.now()
+        now = datetime.now()
         with databaseConnection(config("hostMydb")) as db:
             db.insert("INSERT INTO nails(dt, pr) VALUES(%s, %s)", (now, args[0],))
             view = db.read("SELECT * FROM nails WHERE dt=%s", (now,))
