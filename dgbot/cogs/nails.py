@@ -73,9 +73,9 @@ class nails(commands.Cog):
             view.add_item(button3)
             view.add_item(button4)
             
-            await ctx.send("Qual o valor?", view=view)
+            await ctx.send("Qual o valor?", view=view, delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização.")
+            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=60)
 
     @commands.command(name="nailsdelete")
     async def nailsdelete(self, ctx, *args):
@@ -83,9 +83,9 @@ class nails(commands.Cog):
             with databaseConnection(config("hostMydb")) as db:
                 before = db.read("SELECT * FROM nails WHERE id = %s", (args[0],))
                 db.delete("DELETE FROM nails WHERE id = %s", (args[0],))
-            await ctx.send(f'{before}\nDeletado com sucesso.')
+            await ctx.send(f'{before}\nDeletado com sucesso.', delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização.")
+            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=60)
 
 async def setup(bot):
     await bot.add_cog(nails(bot))

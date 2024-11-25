@@ -18,9 +18,9 @@ class work(commands.Cog):
             with databaseConnection(config("hostMydb")) as db:
                 db.insert(f"INSERT INTO act (dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, ctx.author.id, args[-2], args[-3], cr[0][0], args[-1],))
             embed = discord.Embed(title='tittle',description=f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {cr[0][0]} {args[-1]}")
-            await ctx.send(embed = embed)
+            await ctx.author.send(embed = embed, delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização")
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=60)
 
     @commands.command(name="actid")
     async def actid(self, ctx, *args):
@@ -34,9 +34,9 @@ class work(commands.Cog):
             embed.set_author(name='Autor')
             embed.add_field(name='Comando:', value=f"{args[0]}", inline=True)
             embed.set_footer(text='Rodapé')
-            await ctx.author.send(embed=embed)
+            await ctx.author.send(embed = embed, delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização.")
+            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=60)
 
 
     @commands.command(name="actreplace")
@@ -47,9 +47,9 @@ class work(commands.Cog):
                 db.update(f"UPDATE act SET {args[1]} = %s WHERE id = %s", (args[2], args[0]))
                 after = db.read(f"SELECT * FROM act WHERE id={args[0]}", (None))
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
-            await ctx.author.send(embed=embed)
+            await ctx.author.send(embed=embed, delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização")
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=60)
 
     @commands.command(name="acttoday")
     async def acttoday(self, ctx):
@@ -59,9 +59,9 @@ class work(commands.Cog):
                 today = db.read("SELECT * FROM act WHERE DATE(dt) = CURRENT_DATE order by id asc", (None))
             for i in today:
                 dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}\n"
-            await ctx.send(f"```{dump}```")
+            await ctx.send(f"```{dump}```", delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização")
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=60)
 
     @commands.command(name="actdelete")
     async def actdelete(self, ctx, *args):
@@ -69,11 +69,9 @@ class work(commands.Cog):
             with databaseConnection(config("hostMydb")) as db:
                 before = db.read("SELECT * FROM act WHERE id = %s", (args[0],))
                 db.delete("DELETE FROM act WHERE id = %s", (args[0],))
-            await ctx.send(f'{before}\nDeletado com sucesso.')
+            await ctx.send(f'{before}\nDeletado com sucesso.', delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização.")
-
-
+            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=60)
 
     @commands.command(name='naquery')
     async def na(self, ctx):
@@ -86,9 +84,9 @@ class work(commands.Cog):
                 embed.add_field(name='cdd', value=i[3], inline=True)
                 embed.add_field(name='brr', value=i[4], inline=True)
                 embed.set_footer(text='contrato')
-                await ctx.author.send(embed = embed)
+                await ctx.author.send(embed = embed, delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização")
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=60)
 
     @commands.command(name='insta')
     async def inst(self, ctx, *args):
@@ -106,9 +104,9 @@ class work(commands.Cog):
                 embed.add_field(name='cdd', value=i[8], inline=True)
                 embed.add_field(name='brr', value=i[9], inline=True)
                 embed.set_footer(text=i[10])
-                await ctx.author.send(embed = embed)
+                await ctx.author.send(embed = embed, delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização")
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=60)
 
     @commands.command(name='requery')
     async def re(self, ctx):
@@ -121,9 +119,9 @@ class work(commands.Cog):
                 embed.add_field(name='cdd', value=i[3], inline=True)
                 embed.add_field(name='brr', value=i[4], inline=True)
                 embed.set_footer(text='footer')
-                await ctx.author.send(embed = embed)
+                await ctx.author.send(embed = embed, delete_after=60)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização")
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=60)
 
 async def setup(bot):
     await bot.add_cog(work(bot))

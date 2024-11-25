@@ -7,14 +7,6 @@ class msc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="join")
-    async def join(self, ctx):
-        if ctx.author.voice:
-            channel = ctx.author.voice.channel
-            voice_client = await channel.connect()
-        else:
-            await ctx.send("O bot não está em um canal de voz.")
-
     @commands.command(name="yt")
     async def yt(self, ctx, *args):
         ydl_opts = {
@@ -54,7 +46,7 @@ class msc(commands.Cog):
         if ctx.voice_client:
             await ctx.voice_client.disconnect()
         else:
-            await ctx.send("O bot não está em um canal de voz.")
+            await ctx.send("O bot não está em um canal de voz.", delete_after=60)
 
 async def setup(bot):
     await bot.add_cog(msc(bot))
