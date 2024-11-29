@@ -13,6 +13,7 @@ async def create_api():
     await bot.load_extension(f'cogs.nails')
     await bot.load_extension(f'cogs.fin')
     await bot.load_extension(f'cogs.work')
+    insert()
     await bot.start(config('TOKEN'))
 
 asyncio.run(create_api())

@@ -9,6 +9,10 @@ class msc(commands.Cog):
 
     @commands.command(name="yt")
     async def yt(self, ctx, *args):
+        view = discord.ui.View(timeout=1800)
+        
+        outbutton = discord.ui.Button(style=discord.ButtonStyle.danger, label="Sair")
+        
         ydl_opts = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -29,24 +33,24 @@ class msc(commands.Cog):
             channel = ctx.author.voice.channel
             voice_client = await channel.connect()
             
-            def after_playing(error):
-                print('Fim')
-            
             ffmpeg_options = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5','options': '-bufsize 128k'}
             
-            voice_client.play(discord.FFmpegPCMAudio(audio_url, **ffmpeg_options), after = after_playing)
+            voice_client.play(discord.FFmpegPCMAudio(audio_url, **ffmpeg_options))
             
             embed = discord.Embed(title='Tocando:', description=f"> {info['title']}")
-        else:
-            embed = discord.Embed(title='Não é possível tocar:', description=f"> Você precisa estar em um canal de voz para usar este comando.")
-        await ctx.send(embed=embed)
-
-    @commands.command(name="leave")
-    async def out(self, ctx):
-        if ctx.voice_client:
-            await ctx.voice_client.disconnect()
-        else:
-            await ctx.send("O bot não está em um canal de voz.", delete_after=60)
+        
+        async def out(interaction: discord.Interaction):
+            if ctx.voice_client:
+                await ctx.voice_client.disconnect()
+            else:
+                embed = discord.Embed(title='Não estou mais ai.')
+            await interaction.response.send_message(embed = embed, ephemeral=False, delete_after=5)
+        
+        outbutton.callback = out
+        
+        view.add_item(outbutton)
+        
+        await ctx.send(embed=embed, view=view)
 
 async def setup(bot):
     await bot.add_cog(msc(bot))

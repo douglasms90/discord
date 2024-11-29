@@ -59,7 +59,7 @@ class fin(commands.Cog):
                 ttc += tc
                 tta += ta
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=120)
+                await ctx.send(f"```{dump}```", delete_after=240)
                 typ = tdp = tct = ct = dv = dp = yp = tc = ta = 0
                 dump = ""
                 for i in active:
@@ -77,7 +77,7 @@ class fin(commands.Cog):
                 ttc += tc
                 tta += ta
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'%.2f' %(dv):<9}{'%.2f' %(dp/ct):<9}{'%.2f' %(yp/ct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=120)
+                await ctx.send(f"```{dump}```", delete_after=240)
                 dump = ""
                 ct = dv = dp = yp = tc = ta = 0
                 for i in active:
@@ -95,7 +95,7 @@ class fin(commands.Cog):
                 tta += ta
                 tct += ct
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'%.2f' %(dv):<9}{'%.2f' %(dp/ct):<9}{'%.2f' %(yp/ct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=120)
+                await ctx.send(f"```{dump}```", delete_after=240)
                 dump = ""
                 tc = ta = 0
                 for i in active:
@@ -106,7 +106,7 @@ class fin(commands.Cog):
                 ttc += tc
                 tta += ta
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=120)
+                await ctx.send(f"```{dump}```", delete_after=240)
                 dump = ""
                 tc = ta = 0
                 for i in active:
@@ -117,10 +117,10 @@ class fin(commands.Cog):
                 ttc += tc
                 tta += ta
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{''}\n"
-                await ctx.send(f"```{dump}```", delete_after=120)
+                await ctx.send(f"```{dump}```", delete_after=240)
                 dump = ""
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'%.2f' %(tdp/tct):<9}{'%.2f' %(typ/tct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(ttc):<10}{'%.2f' %(tta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=120)
+                await ctx.send(f"```{dump}```", delete_after=240)
             
             async def lite(interaction: discord.Interaction):
                 with databaseConnection(config("hostMydb")) as db:
