@@ -59,7 +59,7 @@ class fin(commands.Cog):
                 ttc += tc
                 tta += ta
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=240)
+                await ctx.send(f"```{dump}```", delete_after=1800)
                 typ = tdp = tct = ct = dv = dp = yp = tc = ta = 0
                 dump = ""
                 for i in active:
@@ -77,7 +77,7 @@ class fin(commands.Cog):
                 ttc += tc
                 tta += ta
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'%.2f' %(dv):<9}{'%.2f' %(dp/ct):<9}{'%.2f' %(yp/ct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=240)
+                await ctx.send(f"```{dump}```", delete_after=1800)
                 dump = ""
                 ct = dv = dp = yp = tc = ta = 0
                 for i in active:
@@ -95,18 +95,18 @@ class fin(commands.Cog):
                 tta += ta
                 tct += ct
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'%.2f' %(dv):<9}{'%.2f' %(dp/ct):<9}{'%.2f' %(yp/ct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=240)
-                dump = ""
-                tc = ta = 0
-                for i in active:
-                    if i[1] == "etfs" or i[1] == "bdrs":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i[3]*i[5]):<10}{'%.2f' %(i[4]*i[5])}\n"
-                        tc += i[3]*i[5]
-                        ta += i[4]*i[5]
-                ttc += tc
-                tta += ta
-                dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=240)
+                await ctx.send(f"```{dump}```", delete_after=1800)
+                #dump = ""
+                #tc = ta = 0
+                #for i in active:
+                #    if i[1] == "etfs" or i[1] == "bdrs":
+                #        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i[3]*i[5]):<10}{'%.2f' %(i[4]*i[5])}\n"
+                #        tc += i[3]*i[5]
+                #        ta += i[4]*i[5]
+                #ttc += tc
+                #tta += ta
+                #dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
+                #await ctx.send(f"```{dump}```", delete_after=1800)
                 dump = ""
                 tc = ta = 0
                 for i in active:
@@ -117,10 +117,10 @@ class fin(commands.Cog):
                 ttc += tc
                 tta += ta
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{''}\n"
-                await ctx.send(f"```{dump}```", delete_after=240)
+                await ctx.send(f"```{dump}```", delete_after=1800)
                 dump = ""
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'%.2f' %(tdp/tct):<9}{'%.2f' %(typ/tct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(ttc):<10}{'%.2f' %(tta)}\n"
-                await ctx.send(f"```{dump}```", delete_after=240)
+                await ctx.send(f"```{dump}```", delete_after=1800)
             
             async def lite(interaction: discord.Interaction):
                 with databaseConnection(config("hostMydb")) as db:
@@ -135,9 +135,9 @@ class fin(commands.Cog):
                 for i in active:
                     if i[1] == "acoes":
                         dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
-                for i in active:
-                    if i[1] == "etfs" or i[1] == "bdrs":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
+                #for i in active:
+                #    if i[1] == "etfs" or i[1] == "bdrs":
+                #        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
                 for i in active:
                     if i[1] == "criptomoedas":
                         dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[3])/i[4])*100):<9}{i[3]:<9}{'':<9}{'%.0f' %(i[5]):<9}\n"
@@ -152,9 +152,9 @@ class fin(commands.Cog):
             view.add_item(button2)
             view.add_item(button3)
             
-            await ctx.send("Pressione um dos botões:", view=view, delete_after=60)
+            await ctx.send("Pressione um dos botões:", view=view, delete_after=120)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=60)
+            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=120)
 
     @commands.command(name="atvreplace")
     async def replace(self, ctx, *args):
@@ -164,20 +164,20 @@ class fin(commands.Cog):
                 db.update("UPDATE atv SET {} = %s WHERE id = %s".format(args[1]), (args[2].replace(',', '.'), args[0]))
                 after = db.read("SELECT * FROM atv WHERE id = %s", (args[0],))
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
-            await ctx.author.send(embed=embed, delete_after=120)
+            await ctx.author.send(embed=embed, delete_after=1200)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=120)
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1800)
 
     @commands.command(name="atvdelete")
     async def delete(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
             with databaseConnection(config("hostMydb")) as db:
-                before = db.read(f"SELECT * FROM atv WHERE id = %s", (args[0]))
-                db.delete(f"DELETE FROM atv WHERE id = %s", (args[0]))
+                before = db.read(f"SELECT * FROM atv WHERE id = %s", (args[0],))
+                db.delete(f"DELETE FROM atv WHERE id = %s", (args[0],))
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before}\nDeletado com sucesso.')
-            await ctx.author.send(embed=embed, delete_after=120)
+            await ctx.author.send(embed=embed, delete_after=1200)
         else:
-            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=120)
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1800)
 
 async def setup(bot):
     await bot.add_cog(fin(bot))
