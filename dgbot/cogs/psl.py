@@ -23,7 +23,7 @@ class psl(commands.Cog):
             db.update(f"UPDATE mkt SET {args[1]} = %s WHERE id = %s", (args[2], args[0]))
             after = db.read(f"SELECT * FROM mkt WHERE id={args[0]}", (None))
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
-            await ctx.author.send(embed=embed)
+            await ctx.send(embed=embed)
 
     @commands.command(name="aiaiai")
     async def aiaiai(self, ctx):

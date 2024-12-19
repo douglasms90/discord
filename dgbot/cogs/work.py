@@ -18,7 +18,7 @@ class work(commands.Cog):
             with databaseConnection(config("hostMydb")) as db:
                 db.insert(f"INSERT INTO act (dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, ctx.author.id, args[-2], args[-3], cr[0][0], args[-1],))
             embed = discord.Embed(title='tittle',description=f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {cr[0][0]} {args[-1]}")
-            await ctx.author.send(embed = embed, delete_after=1200)
+            await ctx.send(embed = embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
 
@@ -34,7 +34,7 @@ class work(commands.Cog):
             embed.set_author(name='Autor')
             embed.add_field(name='Comando:', value=f"{args[0]}", inline=True)
             embed.set_footer(text='Rodapé')
-            await ctx.author.send(embed = embed, delete_after=1200)
+            await ctx.send(embed = embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=1200)
 
@@ -47,7 +47,7 @@ class work(commands.Cog):
                 db.update(f"UPDATE act SET {args[1]} = %s WHERE id = %s", (args[2], args[0]))
                 after = db.read(f"SELECT * FROM act WHERE id={args[0]}", (None))
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before[0]}\nPosteriormente: {after[0]}!')
-            await ctx.author.send(embed=embed, delete_after=1200)
+            await ctx.send(embed=embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
 
@@ -84,7 +84,7 @@ class work(commands.Cog):
                 embed.add_field(name='cdd', value=i[3], inline=True)
                 embed.add_field(name='brr', value=i[4], inline=True)
                 embed.set_footer(text='contrato')
-                await ctx.author.send(embed = embed, delete_after=1200)
+                await ctx.send(embed = embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
 
@@ -104,7 +104,7 @@ class work(commands.Cog):
                 embed.add_field(name='cdd', value=i[8], inline=True)
                 embed.add_field(name='brr', value=i[9], inline=True)
                 embed.set_footer(text=i[10])
-                await ctx.author.send(embed = embed, delete_after=1200)
+                await ctx.send(embed = embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
 
@@ -119,7 +119,7 @@ class work(commands.Cog):
                 embed.add_field(name='cdd', value=i[3], inline=True)
                 embed.add_field(name='brr', value=i[4], inline=True)
                 embed.set_footer(text='footer')
-                await ctx.author.send(embed = embed, delete_after=1200)
+                await ctx.send(embed = embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
 
