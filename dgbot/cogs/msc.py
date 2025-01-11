@@ -40,6 +40,7 @@ class msc(commands.Cog):
             embed = discord.Embed(title='Tocando:', description=f"> {info['title']}")
         
         async def out(interaction: discord.Interaction):
+            await interaction.response.defer()
             if ctx.voice_client:
                 await ctx.voice_client.disconnect()
             else:

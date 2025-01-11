@@ -2,6 +2,10 @@ discord.py
 discord.py[voice]
 psycopg2-binary
 python-decouple
+yt_dlp
 bs4
 requests
 asyncio
+
+# Caso der erro de audioop
+# audioop-lts

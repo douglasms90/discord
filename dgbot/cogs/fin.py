@@ -16,7 +16,8 @@ class fin(commands.Cog):
             
             button1 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="Sync")
             button2 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="Atv")
-            button3 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="Lite")
+            button3 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="Cot")
+            button4 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="Div")
             
             async def sync(interaction: discord.Interaction):
                 await interaction.response.defer()
@@ -122,35 +123,54 @@ class fin(commands.Cog):
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'%.2f' %(tdp/tct):<9}{'%.2f' %(typ/tct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(ttc):<10}{'%.2f' %(tta)}\n"
                 await ctx.send(f"```{dump}```", delete_after=1800)
             
-            async def lite(interaction: discord.Interaction):
+            async def cot(interaction: discord.Interaction):
                 with databaseConnection(config("hostMydb")) as db:
                     active = db.read(f"SELECT * FROM atv ORDER BY id asc", (None))
                 dump = ""
                 for i in active:
                     if i[1] == "rf":
                         dump += f"{i[0]:<5}{i[2].upper():<9}{('%.2f' %(((i[3]-i[4])/i[4])*100)):<9}{i[3]:<9}{i[4]:<9}{i[5]:<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
                 for i in active:
                     if i[1] == "fundos-imobiliarios":
                         dump += f"{i[0]:<5}{i[2].upper():<9}{('%.2f' %(((i[3]-i[4])/i[4])*100)):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
                 for i in active:
                     if i[1] == "acoes":
                         dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
                 #for i in active:
                 #    if i[1] == "etfs" or i[1] == "bdrs":
                 #        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
                 for i in active:
                     if i[1] == "criptomoedas":
                         dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[3])/i[4])*100):<9}{i[3]:<9}{'':<9}{'%.0f' %(i[5]):<9}\n"
-                dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
+                await interaction.response.send_message(f"```{dump}```", ephemeral=True)
+
+            async def div(interaction: discord.Interaction):
+                with databaseConnection(config("hostMydb")) as db:
+                    active = db.read(f"SELECT * FROM atv ORDER BY id asc", (None))
+                dump = ""
+                for i in active:
+                    if i[1] == "fundos-imobiliarios":
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{i[3]:<9}{i[4]:<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-pr-':<9}{'-pm-':<9}\n"
+                for i in active:
+                    if i[1] == "acoes":
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{i[3]:<9}{i[4]:<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-pr-':<9}{'-pm-':<9}\n"
                 await interaction.response.send_message(f"```{dump}```", ephemeral=True)
             
             button1.callback = sync
             button2.callback = atv
-            button3.callback = lite
+            button3.callback = cot
+            button4.callback = div
             
             view.add_item(button1)
             view.add_item(button2)
             view.add_item(button3)
+            view.add_item(button4)
             
             await ctx.send("Pressione um dos botões:", view=view, delete_after=120)
         else:

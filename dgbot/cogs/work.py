@@ -63,6 +63,18 @@ class work(commands.Cog):
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
 
+    @commands.command(name="actlast")
+    async def actlast(self, ctx):
+        if ctx.author.id in [269592803602989058]: # D
+            dump = ""
+            with databaseConnection(config("hostMydb")) as db:
+                today = db.read("SELECT * FROM act ORDER BY id desc LIMIT 20;", (None))
+            for i in today:
+                dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}\n"
+            await ctx.send(f"```{dump}```", delete_after=1200)
+        else:
+            await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
+
     @commands.command(name="actdelete")
     async def actdelete(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
