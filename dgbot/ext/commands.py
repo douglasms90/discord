@@ -2,8 +2,8 @@ from ext.database import databaseConnection
 from decouple import config
 
 
-def create():
-    with databaseConnection(config("hostAdmin")) as db:
+def createdb():
+    with databaseConnection(config("hostMydb")) as db:
         #db.create("CREATE DATABASE database")
         pass
 
@@ -16,7 +16,7 @@ def createdt():
         #db.createdt("CREATE TABLE nails(id SERIAL PRIMARY KEY, dt TIMESTAMP, pr FLOAT)")
         pass
 
-def insert():
+def insertdb():
     with databaseConnection(config("hostMydb")) as db:
         #db.insert("INSERT INTO mkt (id, mc, nm,  pd, pu) VALUES(%s, %s, %s, %s, %s)", (101, 'carb', 'arroz', 23.99, 29.9))
         #db.insert("INSERT INTO atv (id, cl, nm, pr, pm, qt, dv, pl, vp) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (300, 'acoes', 'bbas3', 0, 0, 3.0, None, None, None))
@@ -25,12 +25,12 @@ def insert():
         db.insert("INSERT INTO atv (id, cl, nm, pr, pm, qt, dv, pl, vp) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (201, 'fundos-imobiliarios', 'kncr11', 1, 1, 1, None, None, None))
         pass
 
-def update():
+def updatedb():
     with databaseConnection(config("hostMydb")) as db:
         #db.update("UPDATE datacamp_courses SET course_instructor = %s, topic = %s WHERE course_name = %s", ('New Instructor', 'New Topic', 'Introduction to SQL'))
         pass
 
-def delete():
+def deletedb():
     with databaseConnection(config("hostMydb")) as db:
         #db.delete("DELETE FROM datacamp_courses WHERE topic = %s", ('Python',))
         pass

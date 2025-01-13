@@ -8,4 +8,4 @@ requests
 asyncio
 
 # Caso der erro de audioop
-# audioop-lts
+#audioop-lts

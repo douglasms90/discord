@@ -14,15 +14,15 @@ class nails(commands.Cog):
         if ctx.author.id in [269592803602989058, 825867087390048326]:  # D, D
             view = discord.ui.View()
             
-            button1 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="20")
-            button2 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="40")
+            button1 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="25")
+            button2 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="50")
             button3 = discord.ui.Button(style=discord.ButtonStyle.secondary, label="120")
             button4 = discord.ui.Button(style=discord.ButtonStyle.primary, label="Dia")
             
             async def um(interaction: discord.Interaction):
                 now = datetime.now()
                 with databaseConnection(config("hostMydb")) as db:
-                    db.insert("INSERT INTO nails(dt, pr) VALUES(%s, %s)", (now, 20,))
+                    db.insert("INSERT INTO nails(dt, pr) VALUES(%s, %s)", (now, 25,))
                     view = db.read("SELECT * FROM nails WHERE dt=%s", (now,))
                 for i in view:
                     embed = discord.Embed(title=f'{now}',description='Unha')
@@ -34,7 +34,7 @@ class nails(commands.Cog):
             async def dois(interaction: discord.Interaction):
                 now = datetime.now()
                 with databaseConnection(config("hostMydb")) as db:
-                    db.insert("INSERT INTO nails(dt, pr) VALUES(%s, %s)", (now, 40,))
+                    db.insert("INSERT INTO nails(dt, pr) VALUES(%s, %s)", (now, 50,))
                     view = db.read("SELECT * FROM nails WHERE dt=%s", (now,))
                 for i in view:
                     embed = discord.Embed(title=f'{now}',description='Unha')
@@ -89,4 +89,3 @@ class nails(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(nails(bot))
-
