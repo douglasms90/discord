@@ -18,7 +18,8 @@ class psl(commands.Cog):
             dump += f"{i[0]:<5}{i[1]:<5}{i[2]:<23}{i[3]:<8}{('%.2f' %((i[3]+i[4])/2)):<8}{i[4]:<8}\n"
         await ctx.send(f"```{dump}```", delete_after=60)
 
-    async def replace(self, ctx, *args):
+    @commands.command(name="mktreplace")
+    async def mktreplace(self, ctx, *args):
         with databaseConnection(config("hostMydb")) as db:
             before = db.read(f"SELECT * FROM mkt WHERE id={args[0]}", None)
             db.update(f"UPDATE mkt SET {args[1]} = %s WHERE id = %s", (args[2], args[0]))

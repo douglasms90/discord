@@ -27,7 +27,7 @@ class nails(commands.Cog):
                 for i in view:
                     embed = discord.Embed(title=f'{now}',description='Unha')
                     embed.set_author(name=ctx.author)
-                    embed.add_field(name='', value=f'', inline=True)
+                    embed.add_field(name='', value='', inline=True)
                     embed.set_footer(text=i[0])
                 await interaction.response.send_message(embed = embed, ephemeral=True)
             
@@ -39,7 +39,7 @@ class nails(commands.Cog):
                 for i in view:
                     embed = discord.Embed(title=f'{now}',description='Unha')
                     embed.set_author(name=ctx.author)
-                    embed.add_field(name='', value=f'', inline=True)
+                    embed.add_field(name='', value='', inline=True)
                     embed.set_footer(text=i[0])
                 await interaction.response.send_message(embed = embed, ephemeral=True)
             
@@ -51,7 +51,7 @@ class nails(commands.Cog):
                 for i in view:
                     embed = discord.Embed(title=f'{now}',description='Unha')
                     embed.set_author(name=ctx.author)
-                    embed.add_field(name='', value=f'', inline=True)
+                    embed.add_field(name='', value='', inline=True)
                     embed.set_footer(text=i[0])
                 await interaction.response.send_message(embed = embed, ephemeral=True)
             

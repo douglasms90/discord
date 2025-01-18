@@ -13,10 +13,10 @@ class work(commands.Cog):
     async def act(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
             with databaseConnection(config("host")) as db:
-                cr = db.read(f"SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos = %s", (args[-2],))
+                cr = db.read("SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos = %s", (args[-2],))
             now = datetime.now()
             with databaseConnection(config("hostMydb")) as db:
-                db.insert(f"INSERT INTO act (dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, ctx.author.id, args[-2], args[-3], cr[0][0], args[-1],))
+                db.insert("INSERT INTO act (dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, ctx.author.id, args[-2], args[-3], cr[0][0], args[-1],))
             embed = discord.Embed(title='tittle',description=f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {cr[0][0]} {args[-1]}")
             await ctx.send(embed = embed, delete_after=1200)
         else:
@@ -68,7 +68,7 @@ class work(commands.Cog):
         if ctx.author.id in [269592803602989058]: # D
             dump = ""
             with databaseConnection(config("hostMydb")) as db:
-                today = db.read("SELECT * FROM act ORDER BY id desc LIMIT 20;", (None))
+                today = db.read("SELECT * FROM act ORDER BY id desc LIMIT 20;", None)
             for i in today:
                 dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}\n"
             await ctx.send(f"```{dump}```", delete_after=1200)

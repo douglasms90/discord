@@ -23,7 +23,7 @@ class fin(commands.Cog):
                 await interaction.response.defer()
                 
                 with databaseConnection(config("hostMydb")) as db:
-                    allatv = db.read("SELECT * FROM atv", (None))
+                    allatv = db.read("SELECT * FROM atv", None)
                      
                     for i in allatv:
                         if i[1] == 'rf':
@@ -49,7 +49,7 @@ class fin(commands.Cog):
             async def atv(interaction: discord.Interaction):
                 await interaction.response.defer()
                 with databaseConnection(config("hostMydb")) as db:
-                    active = db.read(f"SELECT * FROM atv ORDER BY id asc", (None))
+                    active = db.read("SELECT * FROM atv ORDER BY id asc", None)
                 dump = ""
                 tta = ttc = tc = ta = 0
                 for i in active:
@@ -125,7 +125,7 @@ class fin(commands.Cog):
             
             async def cot(interaction: discord.Interaction):
                 with databaseConnection(config("hostMydb")) as db:
-                    active = db.read(f"SELECT * FROM atv ORDER BY id asc", (None))
+                    active = db.read("SELECT * FROM atv ORDER BY id asc", None)
                 dump = ""
                 for i in active:
                     if i[1] == "rf":
@@ -150,7 +150,7 @@ class fin(commands.Cog):
 
             async def div(interaction: discord.Interaction):
                 with databaseConnection(config("hostMydb")) as db:
-                    active = db.read(f"SELECT * FROM atv ORDER BY id asc", (None))
+                    active = db.read("SELECT * FROM atv ORDER BY id asc", None)
                 dump = ""
                 for i in active:
                     if i[1] == "fundos-imobiliarios":
@@ -192,8 +192,8 @@ class fin(commands.Cog):
     async def delete(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
             with databaseConnection(config("hostMydb")) as db:
-                before = db.read(f"SELECT * FROM atv WHERE id = %s", (args[0],))
-                db.delete(f"DELETE FROM atv WHERE id = %s", (args[0],))
+                before = db.read("SELECT * FROM atv WHERE id = %s", (args[0],))
+                db.delete("DELETE FROM atv WHERE id = %s", (args[0],))
             embed = discord.Embed(title='Replace', description=f'Anteriormente: {before}\nDeletado com sucesso.')
             await ctx.send(embed=embed, delete_after=1200)
         else:
