@@ -2,7 +2,7 @@ import discord, asyncio
 from discord.ext import commands
 from decouple import config
 
-#from ext.commands import createdb
+from ext.commands import insertdb
 
 bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
@@ -13,6 +13,7 @@ async def create_api():
     await bot.load_extension('cogs.nails')
     await bot.load_extension('cogs.fin')
     await bot.load_extension('cogs.work')
+    insertdb()
     await bot.start(config('TOKEN'))
 
 asyncio.run(create_api())

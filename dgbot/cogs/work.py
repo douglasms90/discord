@@ -16,7 +16,7 @@ class work(commands.Cog):
                 cr = db.read("SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos = %s", (args[-2],))
             now = datetime.now()
             with databaseConnection(config("hostMydb")) as db:
-                db.insert("INSERT INTO act (dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, ctx.author.id, args[-2], args[-3], cr[0][0], args[-1],))
+                db.insert("INSERT INTO act (dt, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s)", (now, args[-2], args[-3], cr[0][0], args[-1],))
             embed = discord.Embed(title='tittle',description=f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {cr[0][0]} {args[-1]}")
             await ctx.send(embed = embed, delete_after=1200)
         else:
@@ -29,7 +29,7 @@ class work(commands.Cog):
                 cr = db.read("SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos=%s", (args[0],))
             now = datetime.now()
             with databaseConnection(config("hostMydb")) as db:
-                db.insert("INSERT INTO act (dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, ctx.author.id, args[0], args[1], cr[0][0], args[2],))
+                db.insert("INSERT INTO act (dt, us, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s)", (now, args[0], args[1], cr[0][0], args[2],))
             embed = discord.Embed(title='Título', description='Descrição')
             embed.set_author(name='Autor')
             embed.add_field(name='Comando:', value=f"{args[0]}", inline=True)
@@ -58,7 +58,7 @@ class work(commands.Cog):
             with databaseConnection(config("hostMydb")) as db:
                 today = db.read("SELECT * FROM act WHERE DATE(dt) = CURRENT_DATE order by id asc", (None))
             for i in today:
-                dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}\n"
+                dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}\n"
             await ctx.send(f"```{dump}```", delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
@@ -70,7 +70,7 @@ class work(commands.Cog):
             with databaseConnection(config("hostMydb")) as db:
                 today = db.read("SELECT * FROM act ORDER BY id desc LIMIT 20;", None)
             for i in today:
-                dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}\n"
+                dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}\n"
             await ctx.send(f"```{dump}```", delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
