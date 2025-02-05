@@ -25,11 +25,9 @@ class work(commands.Cog):
     @commands.command(name="actid")
     async def actid(self, ctx, *args):
         if ctx.author.id in [269592803602989058]:  # D
-            with databaseConnection(config("host")) as db:
-                cr = db.read("SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos=%s", (args[0],))
             now = datetime.now()
             with databaseConnection(config("hostMydb")) as db:
-                db.insert("INSERT INTO act (dt, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s)", (now, args[0], args[1], cr[0][0], args[2],))
+                db.insert("INSERT INTO act (dt, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s)", (now, args[0], args[1], 0, args[2],))
             embed = discord.Embed(title='Título', description='Descrição')
             embed.set_author(name='Autor')
             embed.add_field(name='Comando:', value=f"{args[0]}", inline=True)
