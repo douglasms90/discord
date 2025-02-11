@@ -12,12 +12,9 @@ class work(commands.Cog):
     @commands.command(name="act")
     async def act(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
-            with databaseConnection(config("host")) as db:
-                cr = db.read("SELECT co.contrato FROM mk_os os JOIN mk_conexoes co ON os.conexao_associada = co.codconexao WHERE codos = %s", (args[-2],))
-            now = datetime.now()
             with databaseConnection(config("hostMydb")) as db:
-                db.insert("INSERT INTO act (dt, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s)", (now, args[-2], args[-3], cr[0][0], args[-1],))
-            embed = discord.Embed(title='tittle',description=f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {cr[0][0]} {args[-1]}")
+                db.insert("INSERT INTO act (dt, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s)", (datetime.now(), args[-2], args[-3], 0, args[-1],))
+            embed = discord.Embed(title = args[-2], description = f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {0} {args[-1]}")
             await ctx.send(embed = embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
