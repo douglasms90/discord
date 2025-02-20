@@ -152,14 +152,16 @@ class fin(commands.Cog):
                 with databaseConnection(config("hostMydb")) as db:
                     active = db.read("SELECT * FROM atv ORDER BY id asc", None)
                 dump = ""
+                yc = dv = dp = 0
                 for i in active:
                     if i[1] == "fundos-imobiliarios":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{i[3]:<9}{i[4]:<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-pr-':<9}{'-pm-':<9}\n"
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{'%.2f' %(i[6]):<9}{'%.2f' %((i[6]/i[3])*100):<9}{'%.2f' %((i[6]/i[4])*100):<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-dv-':<9}{'-dp-':<9}{'-yc-':<9}\n"
+                yc = dv = dp = 0
                 for i in active:
                     if i[1] == "acoes":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{i[3]:<9}{i[4]:<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-pr-':<9}{'-pm-':<9}\n"
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{'%.2f' %(i[6]):<9}{'%.2f' %((i[6]/i[3])*100):<9}{'%.2f' %((i[6]/i[4])*100):<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-dv-':<9}{'-dp-':<9}{'-yc-':<9}\n"
                 await interaction.response.send_message(f"```{dump}```", ephemeral=True)
             
             button1.callback = sync
