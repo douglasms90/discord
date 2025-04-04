@@ -23,7 +23,7 @@ class fin(commands.Cog):
                 await interaction.response.defer()
                 
                 with databaseConnection(config("hostMydb")) as db:
-                    allatv = db.read("SELECT * FROM atv", None)
+                    allatv = db.read("SELECT * FROM atv order by id asc", None)
                      
                     for i in allatv:
                         if i[1] == 'rf':
@@ -38,7 +38,7 @@ class fin(commands.Cog):
                                 vp = float(st.find_all('strong', class_='value')[6].text.replace(',', '.'))
                                 db.update("UPDATE atv SET dv = %s, vp = %s WHERE id = %s", (dv, vp, i[0]))
                             
-                            if i[1] == 'acoes' or i[1] == 'bdrs':
+                            if i[1] == 'acoes': #or i[1] == 'bdrs':
                                 dv = float((st.find_all('span', class_='sub-value')[3].text)[3:].replace(',', '.'))
                                 pl = float(st.find_all('strong', class_='value d-block lh-4 fs-4 fw-700')[1].text.replace(',', '.'))
                                 vp = float(st.find_all('strong', class_='value d-block lh-4 fs-4 fw-700')[3].text.replace(',', '.'))
@@ -97,17 +97,17 @@ class fin(commands.Cog):
                 tct += ct
                 dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'%.2f' %(dv):<9}{'%.2f' %(dp/ct):<9}{'%.2f' %(yp/ct):<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
                 await ctx.send(f"```{dump}```", delete_after=1800)
-                #dump = ""
-                #tc = ta = 0
-                #for i in active:
-                #    if i[1] == "etfs" or i[1] == "bdrs":
-                #        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i[3]*i[5]):<10}{'%.2f' %(i[4]*i[5])}\n"
-                #        tc += i[3]*i[5]
-                #        ta += i[4]*i[5]
-                #ttc += tc
-                #tta += ta
-                #dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
-                #await ctx.send(f"```{dump}```", delete_after=1800)
+                dump = ""
+                tc = ta = 0
+                for i in active:
+                    if i[1] == "etfs" or i[1] == "bdrs":
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}{'':<9}{'':<9}{'':<9}{'':<9}{'':<9}{'%.2f' %(i[3]*i[5]):<10}{'%.2f' %(i[4]*i[5])}\n"
+                        tc += i[3]*i[5]
+                        ta += i[4]*i[5]
+                ttc += tc
+                tta += ta
+                dump += f"{'-id-':<5}{'-nm-':<9}{'-vl%-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}{'-dv-':<9}{'-dv%-':<9}{'-yc%-':<9}{'-pl-':<9}{'-vp-':<9}{'%.2f' %(tc):<10}{'%.2f' %(ta)}\n"
+                await ctx.send(f"```{dump}```", delete_after=1800)
                 dump = ""
                 tc = ta = 0
                 for i in active:
@@ -127,41 +127,97 @@ class fin(commands.Cog):
                 with databaseConnection(config("hostMydb")) as db:
                     active = db.read("SELECT * FROM atv ORDER BY id asc", None)
                 dump = ""
+                allct = allvl = tvl = vl = ct = 0
                 for i in active:
                     if i[1] == "rf":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{('%.2f' %(((i[3]-i[4])/i[4])*100)):<9}{i[3]:<9}{i[4]:<9}{i[5]:<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
+                        ct += 1
+                        vl = ((i[3]-i[4])/i[4])*100
+                        ct += 1
+                        tvl += vl
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(vl):<9}{i[3]:<9}{i[4]:<9}{i[5]:<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(tvl/ct):<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n\n"
+                allct += ct
+                allvl += tvl
+                tvl = ct = 0
                 for i in active:
                     if i[1] == "fundos-imobiliarios":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{('%.2f' %(((i[3]-i[4])/i[4])*100)):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
+                        vl = ((i[3]-i[4])/i[4])*100
+                        ct += 1
+                        tvl += vl
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(vl):<9}{i[3]:<9}{i[4]:<9}{i[5]:<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(tvl/ct):<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n\n"
+                allct += ct
+                allvl += tvl
+                tvl = ct = 0
                 for i in active:
                     if i[1] == "acoes":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
-                #for i in active:
-                #    if i[1] == "etfs" or i[1] == "bdrs":
-                #        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{i[3]:<9}{i[4]:<9}{'%.0f' %(i[5]):<9}\n"
+                        vl = ((i[3]-i[4])/i[4])*100
+                        ct += 1
+                        tvl += vl
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(vl):<9}{i[3]:<9}{i[4]:<9}{i[5]:<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(tvl/ct):<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n\n"
+                allct += ct
+                allvl += tvl
+                tvl = ct = 0
                 for i in active:
-                    if i[1] == "criptomoedas":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[3])/i[4])*100):<9}{i[3]:<9}{'':<9}{'%.0f' %(i[5]):<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
+                    if i[1] == "etfs" or i[1] == "bdrs":
+                        vl = ((i[3]-i[4])/i[4])*100
+                        ct += 1
+                        tvl += vl
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(vl):<9}{i[3]:<9}{i[4]:<9}{i[5]:<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(tvl/ct):<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n\n"
+                allct += ct
+                allvl += tvl
+                tvl = ct = 0
+                #for i in active:
+                #    if i[1] == "criptomoedas":
+                #        ct += 1
+                #        vl = ((i[3]-i[4])/i[4])*100
+                #        tvl += vl
+                #        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(vl):<9}{i[3]:<9}{i[4]:<9}{i[5]:<9}\n"
+                #dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(tvl/ct):<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n\n"
+                #allct += ct
+                #allvl += tvl
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(allvl/allct):<9}{'-pr-':<9}{'-pm-':<9}{'-qt-':<9}\n"
                 await interaction.response.send_message(f"```{dump}```", ephemeral=True)
 
             async def div(interaction: discord.Interaction):
                 with databaseConnection(config("hostMydb")) as db:
-                    active = db.read("SELECT * FROM atv ORDER BY id asc", None)
+                    active = db.read("SELECT * FROM atv WHERE cl IN ('fundos-imobiliarios','acoes') ORDER BY id asc", None)
                 dump = ""
-                yc = dv = dp = 0
+                allct = allvl = alldp = allyp = tdp = typ = tvl = yp = dp = ct = 0
                 for i in active:
                     if i[1] == "fundos-imobiliarios":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{'%.2f' %(i[6]):<9}{'%.2f' %((i[6]/i[3])*100):<9}{'%.2f' %((i[6]/i[4])*100):<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-dv-':<9}{'-dp-':<9}{'-yc-':<9}\n"
-                yc = dv = dp = 0
+                        vl = ((i[3]-i[4])/i[4])*100
+                        dp = (i[6]/i[3])*100
+                        yp = (i[6]/i[4])*100
+                        ct += 1
+                        tvl += vl
+                        tdp += dp
+                        typ += yp
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(vl):<9}{'%.2f' %(dp):<9}{'%.2f' %(yp):<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(tvl/ct):<9}{'%.2f' %(tdp/ct):<9}{'%.2f' %(typ/ct):<9}\n\n"
+                allct += ct
+                allvl += tvl
+                alldp += tdp
+                allyp += typ
+                tdp = typ = tvl = yp = dp = ct = 0
                 for i in active:
                     if i[1] == "acoes":
-                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(((i[3]-i[4])/i[4])*100):<9}{'%.2f' %(i[6]):<9}{'%.2f' %((i[6]/i[3])*100):<9}{'%.2f' %((i[6]/i[4])*100):<9}\n"
-                dump += f"{'-i-':<5}{'-nm-':<9}{'-vl-':<9}{'-dv-':<9}{'-dp-':<9}{'-yc-':<9}\n"
+                        vl = ((i[3]-i[4])/i[4])*100
+                        dp = (i[6]/i[3])*100
+                        yp = (i[6]/i[4])*100
+                        ct += 1
+                        tvl += vl
+                        tdp += dp
+                        typ += yp
+                        dump += f"{i[0]:<5}{i[2].upper():<9}{'%.2f' %(vl):<9}{'%.2f' %(dp):<9}{'%.2f' %(yp):<9}\n"
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(tvl/ct):<9}{'%.2f' %(tdp/ct):<9}{'%.2f' %(typ/ct):<9}\n\n"
+                allct += ct
+                allvl += tvl
+                alldp += tdp
+                allyp += typ
+                dump += f"{'-i-':<5}{'-nm-':<9}{'%.2f' %(allvl/allct):<9}{'%.2f' %(alldp/allct):<9}{'%.2f' %(allyp/allct):<9}\n"
                 await interaction.response.send_message(f"```{dump}```", ephemeral=True)
             
             button1.callback = sync

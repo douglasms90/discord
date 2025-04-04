@@ -10,9 +10,9 @@ class msc(commands.Cog):
     async def yt(self, ctx, *args):
         view = discord.ui.View(timeout=1800)
 
-        pausebutton = discord.ui.Button(style=discord.ButtonStyle.gray, label="Pause")
-        resumebutton = discord.ui.Button(style=discord.ButtonStyle.green, label="Resume")
-        repeatbutton = discord.ui.Button(style=discord.ButtonStyle.blurple, label="Repeat")
+        pausebutton = discord.ui.Button(style=discord.ButtonStyle.gray, label="Pausar")
+        resumebutton = discord.ui.Button(style=discord.ButtonStyle.green, label="Retomar")
+        repeatbutton = discord.ui.Button(style=discord.ButtonStyle.blurple, label="Repetir")
         outbutton = discord.ui.Button(style=discord.ButtonStyle.red, label="Sair")
 
         ydl_opts = {
@@ -23,12 +23,18 @@ class msc(commands.Cog):
                 'preferredquality': '192',
             }],
             'outtmpl': '%(title)s.%(ext)s',
-            'ffmpeg_location': '/usr/bin/ffmpeg',  # Adicione o caminho completo para o ffmpeg
+            'ffmpeg_location': '/usr/bin/ffmpeg',
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(args[0], download=False)
-            audio_url = info['url']
+            # Executa a busca no YouTube com base no nome da música
+            search_results = ydl.extract_info(f"ytsearch:{args}", download=False)
+            if search_results and 'entries' in search_results:
+                info = search_results['entries'][0]  # Primeiro resultado da busca
+
+        #    Buscar pela url
+        #    info = ydl.extract_info(args[0], download=False)
+        #    audio_url = info['url']
 
         if ctx.author.voice:
             channel = ctx.author.voice.channel
@@ -36,9 +42,11 @@ class msc(commands.Cog):
 
             ffmpeg_options = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5','options': '-bufsize 128k'}
 
-            voice_client.play(discord.FFmpegPCMAudio(audio_url, **ffmpeg_options))
+            voice_client.play(discord.FFmpegPCMAudio(info['url'], **ffmpeg_options))
 
             embed = discord.Embed(title='Tocando:', description=f"> {info['title']}")
+
+            embed.set_image(url=info['thumbnail'])
 
         async def pause(interaction: discord.Interaction): # Pausar
             await interaction.response.defer()
@@ -52,7 +60,7 @@ class msc(commands.Cog):
 
         async def repeat(interaction: discord.Interaction): # Repetir
             await interaction.response.defer()
-            voice_client.play(discord.FFmpegPCMAudio(audio_url, **ffmpeg_options))
+            voice_client.play(discord.FFmpegPCMAudio(info['url'], **ffmpeg_options))
 
         async def out(interaction: discord.Interaction): # Sair
             await interaction.response.defer()
