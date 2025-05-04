@@ -7,6 +7,10 @@ link = "https://database-11bec-default-rtdb.firebaseio.com/"
 #req = requests.post(f"{link}/discord/tests/.json", data=json.dumps(dados))
 
 # Patch(Update)
-dados = {'nome':'Douglas'}
-id = '-OPHWlWesheJbcvFUuoN'
-req = requests.patch(f"{link}/discord/tests/{id}/.json", data=json.dumps(dados))
+#dados = {'nome':'Douglas'}
+#id = '-OPHWlWesheJbcvFUuoN'
+#req = requests.patch(f"{link}/discord/tests/{id}/.json", data=json.dumps(dados))
+
+# Get(Read)
+req = requests.get(f'{link}/.json')
+print(req.text)
