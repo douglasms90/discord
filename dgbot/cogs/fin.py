@@ -5,9 +5,76 @@ from ext.database import databaseConnection
 from ext.webscraping import bs
 from decouple import config
 
+import requests
+import json
+
 class fin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name="fire")
+    async def fire(self, ctx):
+        if ctx.author.id in [269592803602989058]:  # D
+
+            # Post(Create)
+            link = "https://database-11bec-default-rtdb.firebaseio.com/"
+            dados = {
+                "Act":[
+                    {
+                        "rf":[
+                            {
+                                "id":101,
+                                "nm":"vsback",
+                                "pr":0,
+                                "pm":0,
+                                "qt":0
+                            },
+                            {
+                                "id":102,
+                                "nm":"selic",
+                                "pr":0,
+                                "pm":0,
+                                "qt":0
+                            },
+                            {
+                                "id":103,
+                                "nm":"lci-26",
+                                "pr":0,
+                                "pm":0,
+                                "qt":0
+                            },
+                            {
+                                "id":104,
+                                "nm":"ipca26",
+                                "pr":0,
+                                "pm":0,
+                                "qt":0
+                            },
+                            {
+                                "id":105,
+                                "nm":"lci-26",
+                                "pr":0,
+                                "pm":0,
+                                "qt":0
+                            },
+                        ]
+                    }
+                ]
+            }
+            req = requests.post(f"{link}/discord/.json", data=json.dumps(dados))
+
+            # Patch(Update)
+            #dados = {'nome':'Douglas'}
+            #id = '-OPHWlWesheJbcvFUuoN'
+            #req = requests.patch(f"{link}/discord/tests/{id}/.json", data=json.dumps(dados))
+
+            # Get(Read)
+            req = requests.get(f'{link}/.json')
+            print(req.text)
+
+            await ctx.send("Pressione um dos botões:", view=view, delete_after=120)
+        else:
+            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=120)
 
     @commands.command(name="atv")
     async def atv(self, ctx):
