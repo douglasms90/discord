@@ -13,26 +13,11 @@ class work(commands.Cog):
     async def act(self, ctx, *args):
         if ctx.author.id in [269592803602989058]: # D
             with databaseConnection(config("hostMydb")) as db:
-                db.insert("INSERT INTO act (dt, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s)", (datetime.now(), args[-2], args[-3], 0, args[-1],))
-            embed = discord.Embed(title = args[-2], description = f"!ativa_onu_vlan {args[-3]} {args[-6].replace('#','')} {0} {args[-1]}")
+                db.insert("INSERT INTO act (dt, sn, os, cr, ct) VALUES(%s, %s, %s, %s, %s)", (datetime.now(), args[-4], args[-3], args[-2], args[-1],))
+            embed = discord.Embed(title = args[-3], description = f"!ativa_onu {args[-4]} {args[-2]} {args[-1]}")
             await ctx.send(embed = embed, delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)
-
-    @commands.command(name="actid")
-    async def actid(self, ctx, *args):
-        if ctx.author.id in [269592803602989058]:  # D
-            now = datetime.now()
-            with databaseConnection(config("hostMydb")) as db:
-                db.insert("INSERT INTO act (dt, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s)", (now, args[0], args[1], 0, args[2],))
-            embed = discord.Embed(title='Título', description='Descrição')
-            embed.set_author(name='Autor')
-            embed.add_field(name='Comando:', value=f"{args[0]}", inline=True)
-            embed.set_footer(text='Rodapé')
-            await ctx.send(embed = embed, delete_after=1200)
-        else:
-            await ctx.send(f"{ctx.author} você não tem autorização.", delete_after=1200)
-
 
     @commands.command(name="actreplace")
     async def actreplace(self, ctx, *args):
