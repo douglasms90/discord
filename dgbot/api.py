@@ -4,13 +4,13 @@ from decouple import config
 
 from ext.commands import insertdb
 
-bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
 async def create_api():
+    bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
+
     await bot.load_extension('cogs._init')
     await bot.load_extension('cogs.msc')
     await bot.load_extension('cogs.psl')
-    await bot.load_extension('cogs.nails')
     await bot.load_extension('cogs.fin')
     await bot.load_extension('cogs.work')
     await bot.start(config('TOKEN'))

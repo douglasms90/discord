@@ -9,8 +9,8 @@ class _init(commands.Cog):
     async def on_ready(self):
         print("Exec...")
 
-    @commands.command(name="test")
-    async def test(self, ctx):
+    @commands.command(name="fine")
+    async def fine(self, ctx):
         await ctx.send("Is fine...")
 
 async def setup(bot):
