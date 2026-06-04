@@ -61,7 +61,6 @@ class work(commands.Cog):
         if ctx.author.id in [269592803602989058]: # D
             dump = ""
             today = self.readIn(f"SELECT * FROM act WHERE DATE(dt) = CURRENT_DATE order by id asc")
-            print(today)
             for i in today:
                 dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}\n"
             await ctx.send(f"```{dump}```", delete_after=1200)
@@ -72,9 +71,9 @@ class work(commands.Cog):
     async def actlast(self, ctx):
         if ctx.author.id in [269592803602989058]: # D
             dump = ""
-            today = self.readIn(f"SELECT * FROM act ORDER BY id desc LIMIT 23;")
+            today = self.readIn(f"SELECT * FROM act ORDER BY id desc LIMIT 25;")
             for i in today:
-                dump += f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}\n"
+                dump += f"{i[0]}|{i[1]}|{i[2]}|{i[3]}|{i[4]}|{i[5]}\n"
             await ctx.send(f"```{dump}```", delete_after=1200)
         else:
             await ctx.send(f"{ctx.author} você não tem autorização", delete_after=1200)

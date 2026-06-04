@@ -2,34 +2,33 @@ from ext.database import databaseConnection
 from decouple import config
 
 
-def createdb():
+def crudIn(self, query):
     with databaseConnection(config("hostMydb")) as db:
-        #db.create("CREATE DATABASE database")
-        pass
+        return db.crud(query)
+
+def createdb():
+    #crudIn("CREATE DATABASE database")
+    pass
 
 def createdt():
-    with databaseConnection(config("hostMydb")) as db:
-        "Tem que ser uma linha de cada vez"
-        #db.createdt("CREATE TABLE mkt(id SERIAL PRIMARY KEY, mc VARCHAR(5), nm VARCHAR(25), pd FLOAT, pu FLOAT)")
-        #db.createdt("CREATE TABLE atv(id SERIAL PRIMARY KEY, cl VARCHAR(20), nm VARCHAR(10), pr FLOAT, pm FLOAT, qt FLOAT, dv FLOAT, pl FLOAT, vp FLOAT)")
-        #db.createdt("CREATE TABLE act(id SERIAL PRIMARY KEY, dt TIMESTAMP, os INTEGER, sn VARCHAR(20), cr INTEGER, ct VARCHAR(5))")
-        #db.createdt("CREATE TABLE nails(id SERIAL PRIMARY KEY, dt TIMESTAMP, pr FLOAT)")
-        pass
+    "Tem que ser uma linha de cada vez"
+    #crudIn("CREATE TABLE mkt(id SERIAL PRIMARY KEY, mc VARCHAR(5), nm VARCHAR(25), pd FLOAT, pu FLOAT)")
+    #crudIn("CREATE TABLE assets(id SERIAL PRIMARY KEY, cl VARCHAR(20), nm VARCHAR(10), pr FLOAT, pm FLOAT, qt FLOAT, dv FLOAT, pl FLOAT, vp FLOAT)")
+    #crudIn("CREATE TABLE act(id SERIAL PRIMARY KEY, dt TIMESTAMP, os INTEGER, sn VARCHAR(20), cr INTEGER, ct VARCHAR(5))")
+    #crudIn("CREATE TABLE nails(id SERIAL PRIMARY KEY, dt TIMESTAMP, pr FLOAT)")
+    pass
 
 def insertdb():
-    with databaseConnection(config("hostMydb")) as db: #db.insert("INSERT INTO mkt (id, mc, nm,  pd, pu) VALUES(%s, %s, %s, %s, %s)", (101, 'carb', 'arroz', 23.99, 29.9))
-        db.insert("INSERT INTO atv (id, cl, nm, pr, pm, qt, dv, pl, vp) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (402, 'rf', 'bonds', 1, 1, 1.0, None, None, None))
-        #db.insert("INSERT INTO act (id, dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s, %s)", (1, '2023-01-17 18:02:00.000000', 269592803602989058, 201942, '4D4B5047B4964348', 65628, 'M08'))
-        #db.insert("INSERT INTO nails (id, dt, pr) VALUES(%s, %s, %s)", (72, '2024-11-08 19:16:00.0', 20.0))
-        #db.insert("INSERT INTO atv (id, cl, nm, pr, pm, qt, dv, pl, vp) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (201, 'fundos-imobiliarios', 'kncr11', 1, 1, 1, None, None, None))
-        pass
+    #crudIn("INSERT INTO assets (id, cl, nm, pr, pm, qt, dv, pl, vp) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (402, 'rf', 'bonds', 1, 1, 1.0, None, None, None))
+    #crudIn("INSERT INTO act (id, dt, us, os, sn, cr, ct) VALUES(%s, %s, %s, %s, %s, %s, %s)", (1, '2023-01-17 18:02:00.000000', 269592803602989058, 201942, '4D4B5047B4964348', 65628, 'M08'))
+    #crudIn("INSERT INTO nails (id, dt, pr) VALUES(%s, %s, %s)", (72, '2024-11-08 19:16:00.0', 20.0))
+    #crudIn("INSERT INTO assets (id, cl, nm, pr, pm, qt, dv, pl, vp) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)", (201, 'fundos-imobiliarios', 'kncr11', 1, 1, 1, None, None, None))
+    pass
 
 def updatedb():
-    with databaseConnection(config("hostMydb")) as db:
-        #db.update("UPDATE datacamp_courses SET course_instructor = %s, topic = %s WHERE course_name = %s", ('New Instructor', 'New Topic', 'Introduction to SQL'))
-        pass
+    #crudIn("UPDATE %s SET %s = %s WHERE %s = %s", (act, id, id_number, nm, nm_string))
+    pass
 
 def deletedb():
-    with databaseConnection(config("hostMydb")) as db:
-        #db.delete("DELETE FROM datacamp_courses WHERE topic = %s", ('Python',))
-        pass
+    ##crudIn("DELETE FROM act WHERE id = %s", (1000,))
+    pass
